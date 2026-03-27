@@ -13,23 +13,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 $total_levels = count( $levels );
 
 /*
- * SVG viewport: 860 × 700 units.  The isosceles triangle has its
- * apex at (430, 0) and base corners at (0, 700) and (860, 700).
- * A taller viewport (700 vs 500) gives each of the 5 equal bands
- * 140 SVG units of height instead of 100, providing more vertical
- * room for labels and buttons within each band.
+ * SVG viewport: 860 × 750 units. The isosceles triangle has its
+ * apex at (430, 0) and base corners at (0, 750) and (860, 750).
+ * Top level (ERP) has more height (180 units) for better content spacing,
+ * while other levels are equally spaced in remaining height.
+ * A taller viewport gives each of the 5 bands more vertical room.
  * N equal horizontal bands divide the triangle; each band is a
  * polygon whose left/right edges lie exactly on the triangle sides,
  * guaranteeing a perfectly straight pyramid silhouette.
  */
 $vb_w   = 860;
-$vb_h   = 700;
-$band_h = $vb_h / $total_levels;
+$vb_h   = 750;
+
+// Custom band heights: top level is taller
+$band_heights = array(180, 142.5, 142.5, 142.5, 142.5);
 
 $geo = array();
+$y_pos = 0;
 foreach ( $levels as $i => $lv ) {
-	$y0  = $i * $band_h;
-	$y1  = ( $i + 1 ) * $band_h;
+	$band_h = $band_heights[ $i ];
+	$y0  = $y_pos;
+	$y1  = $y_pos + $band_h;
+	$y_pos = $y1;
+
 	// x-coordinates of the triangle edge at y0 and y1
 	$xl0 = $vb_w / 2 * ( 1 - $y0 / $vb_h );
 	$xr0 = $vb_w / 2 * ( 1 + $y0 / $vb_h );
@@ -59,7 +65,7 @@ foreach ( $levels as $i => $lv ) {
 		'xr1'     => round( $xr1 ),
 		'y1'      => round( $y1 ),
 		'top_pct' => round( $y0 / $vb_h * 100, 4 ),
-		'h_pct'   => round( 100 / $total_levels, 4 ),
+		'h_pct'   => round( $band_h / $vb_h * 100, 4 ),
 		'pad_pct' => max( 1.5, round( $xl1 / $vb_w * 100, 1 ) ),
 	);
 }
@@ -69,7 +75,7 @@ foreach ( $levels as $i => $lv ) {
 	<div class="sap-pyramid" role="list" aria-label="<?php esc_attr_e( 'CIM Automation Pyramid', 'sevate-automation-pyramid' ); ?>">
 
 		<!-- SVG: colored triangle bands that form the pyramid visual -->
-		<svg class="sap-pyramid__bg" viewBox="0 0 <?php echo esc_attr( $vb_w ); ?> <?php echo esc_attr( $vb_h ); ?>" aria-hidden="true" focusable="false">
+		<svg class="sap-pyramid__bg" viewBox="0 0 860 750" aria-hidden="true" focusable="false">
 			<?php foreach ( $levels as $i => $level ) : ?>
 			<polygon
 				class="sap-bg-band sap-bg-band--<?php echo esc_attr( $level['id'] ); ?>"
