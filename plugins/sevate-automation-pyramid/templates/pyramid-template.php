@@ -17,14 +17,31 @@ $total_levels = count( $levels );
 	<div class="sap-pyramid" role="list" aria-label="<?php esc_attr_e( 'CIM Automation Pyramid', 'sevate-automation-pyramid' ); ?>">
 
 		<?php foreach ( $levels as $index => $level ) :
-			// Width grows from ~18% at the top to ~82% at the bottom.
-			$pct   = $total_levels > 1
-				? 18 + ( ( $index / ( $total_levels - 1 ) ) * 64 )
-				: 50;
-			$width = round( $pct, 2 );
-		?>
+		/*
+		 * Pyramid geometry — apex = 12%, base = 88% of container width.
+		 * Each level's div width = the BOTTOM edge of its trapezoid band.
+		 * The clip-path top-inset is derived so every band's slanted edge
+		 * is collinear with every other band's — producing a true pyramid
+		 * outline with perfectly straight sides.
+		 *
+		 *   top_inset = (w_bot - w_top) / (2 * w_bot)
+		 *             = step / (2 * w_bot)
+		 */
+		$t_pct      = 12.0;
+		$b_pct      = 88.0;
+		$step       = $total_levels > 1
+			? ( $b_pct - $t_pct ) / $total_levels
+			: $b_pct - $t_pct;
+		$w_bot      = round( $t_pct + ( $index + 1 ) * $step, 2 );
+		$top_inset  = round( $step / ( 2 * $w_bot ) * 100, 2 );
+		$bot_inset  = 100 - $top_inset;
+		$clip_path  = "polygon({$top_inset}% 0%, {$bot_inset}% 0%, 100% 100%, 0% 100%)";
+		/* Content padding: half the top-inset + 3% safety margin keeps
+		 * text and buttons visually inside the trapezoid background. */
+		$pad_h      = round( $top_inset / 2 + 3, 1 );
+	?>
 		<div class="sap-level sap-level--<?php echo esc_attr( $level['id'] ); ?>"
-		     style="width:<?php echo esc_attr( $width ); ?>%"
+		     style="width:<?php echo esc_attr( $w_bot ); ?>%; --level-clip:<?php echo esc_attr( $clip_path ); ?>; --level-pad:<?php echo esc_attr( $pad_h ); ?>%"
 		     role="listitem">
 
 			<div class="sap-level__header">

@@ -16,7 +16,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 3px;
+	gap: 0;
 	margin: 0 auto;
 	max-width: 860px;
 }
@@ -34,31 +34,31 @@
 	align-items: center;
 	justify-content: center;
 	min-height: 76px;
-	padding: 14px 13%;   /* horizontal padding keeps content clear of angled edges */
+	/*
+	 * --level-pad is computed per-level in PHP so content stays clear
+	 * of the slanted edges at the narrowest (top) part of each band.
+	 */
+	padding: 14px var(--level-pad, 13%);
 	background: transparent;
 	text-align: center;
 	gap: 8px;
 }
 
-/* Trapezoid background */
+/* Trapezoid background — clip-path applied here so content is never masked */
 .sap-level::before {
 	content: '';
 	position: absolute;
 	inset: 0;
 	z-index: 0;
-	clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%);
+	/*
+	 * --level-clip is set inline per level by PHP.
+	 * Each value is computed so the diagonal edges across all bands
+	 * form a single straight line — a true pyramid silhouette.
+	 */
+	clip-path: var(--level-clip);
+	/* Thin separator between bands */
+	box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.22);
 	transition: filter 0.2s ease;
-}
-
-/* Top level: steeper taper so the peak looks sharp */
-.sap-level:first-child::before {
-	clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-}
-
-/* Bottom level: flat rectangle, no taper */
-.sap-level:last-child::before {
-	clip-path: none;
-	border-radius: 0 0 4px 4px;
 }
 
 .sap-level:hover::before {
@@ -264,8 +264,7 @@
 		width: 100% !important;   /* override inline width on small screens */
 	}
 
-	.sap-level::before,
-	.sap-level:first-child::before {
+	.sap-level::before {
 		clip-path: none !important;
 		border-radius: 6px;
 	}
