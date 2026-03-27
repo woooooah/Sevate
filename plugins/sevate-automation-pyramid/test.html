@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="sl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sevate – Automation Pyramid (test preview)</title>
+
+    <!-- Plugin stylesheet (relative path from test.html location) -->
+    <link rel="stylesheet" href="assets/css/pyramid.css" />
+
+    <style>
+      /* Minimal page chrome so the pyramid looks close to the real site */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #0d1b2a;
+        color: #ffffff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      header {
+        width: 100%;
+        padding: 24px 40px;
+        background: #1a2332;
+        border-bottom: 2px solid #16a085;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      header .logo {
+        font-size: 1.4rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: #16a085;
+      }
+
+      header .logo span {
+        color: #ffffff;
+      }
+
+      header .badge {
+        font-size: 0.72rem;
+        background: rgba(22, 160, 133, 0.2);
+        border: 1px solid #16a085;
+        color: #16a085;
+        padding: 2px 8px;
+        border-radius: 20px;
+        letter-spacing: 0.5px;
+      }
+
+      main {
+        width: 100%;
+        max-width: 1000px;
+        padding: 40px 20px 80px;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0 0 8px;
+        color: #ffffff;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 0.9rem;
+        margin: 0 0 48px;
+      }
+
+      /* Override wrapper background for dark page */
+      .sap-wrapper {
+        background: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">SEVATE<span>.si</span></div>
+      <div class="badge">test preview</div>
+    </header>
+
+    <main>
+      <h1>CIM Automation Pyramid</h1>
+      <p class="subtitle">
+        Kliknite na katerokoli storitev za prikaz podrobnosti.
+      </p>
+
+      <!-- ═══════════════════════════════════════════════════════════
+	     Pyramid markup — copy of what pyramid-template.php outputs.
+	     Keep in sync with the PHP template when updating services.
+	     ═══════════════════════════════════════════════════════════ -->
+      <div class="sap-wrapper">
+        <div
+          class="sap-pyramid"
+          role="list"
+          aria-label="CIM Automation Pyramid">
+          <!-- SVG: colored triangle bands that form the pyramid visual -->
+          <svg
+            class="sap-pyramid__bg"
+            viewBox="0 0 860 750"
+            aria-hidden="true"
+            focusable="false">
+            <!-- Band fills: apex=430,0 → base=0,750 and 860,750. ERP band 180px, others 142.5px each -->
+            <polygon
+              class="sap-bg-band sap-bg-band--erp"
+              points="430,0 533,180 327,180" />
+            <polygon
+              class="sap-bg-band sap-bg-band--mes"
+              points="327,180 533,180 615,323 245,323" />
+            <polygon
+              class="sap-bg-band sap-bg-band--scada"
+              points="245,323 615,323 697,465 163,465" />
+            <polygon
+              class="sap-bg-band sap-bg-band--plc"
+              points="163,465 697,465 778,608 82,608" />
+            <polygon
+              class="sap-bg-band sap-bg-band--field"
+              points="82,608 778,608 860,750 0,750" />
+            <!-- Separator lines between bands -->
+            <line class="sap-divider" x1="327" y1="180" x2="533" y2="180" />
+            <line class="sap-divider" x1="245" y1="323" x2="615" y2="323" />
+            <line class="sap-divider" x1="163" y1="465" x2="697" y2="465" />
+            <line class="sap-divider" x1="82" y1="608" x2="778" y2="608" />
+          </svg>
+
+          <!-- Level content: absolutely positioned over the SVG -->
+
+          <!-- Level 0 – ERP (top 0%; h=24%; pad=38%) -->
+          <div
+            class="sap-level sap-level--erp"
+            style="--level-top: 0%; --level-h: 24%; --level-pad: 38%"
+            role="listitem">
+            <div class="sap-level__header">
+              <span class="sap-level__name">ERP</span>
+              <span class="sap-level__sub">Enterprise Level</span>
+            </div>
+            <div class="sap-level__services">
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="ERP Integracija"
+                data-description="Celovita integracija poslovnih procesov (nabava, prodaja, finance, HR) v enoten informacijski sistem za boljšo preglednost in odločanje."
+                data-url="/storitve/erp-integracija/"
+                aria-label="ERP Integracija">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label">ERP Integracija</span>
+              </button>
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="Poslovna analitika"
+                data-description="Vzpostavitev naprednih analitičnih orodij za sledenje KPI-jem in podporo strateškim odločitvam vodstva."
+                data-url="/storitve/poslovna-analitika/"
+                aria-label="Poslovna analitika">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label">Poslovna analitika</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Level 1 – MES (top 24%; h=19%; pad=28.5%) -->
+          <div
+            class="sap-level sap-level--mes"
+            style="--level-top: 24%; --level-h: 19%; --level-pad: 28.5%"
+            role="listitem">
+            <div class="sap-level__header">
+              <span class="sap-level__name">MES</span>
+              <span class="sap-level__sub">Manufacturing Execution Level</span>
+            </div>
+            <div class="sap-level__services">
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="MES Implementacija"
+                data-description="Vzpostavitev sistema za izvajanje in upravljanje proizvodnje v realnem času — sledenje nalogom, beleženje izpadov in OEE analitika."
+                data-url="/storitve/mes-implementacija/"
+                aria-label="MES Implementacija">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label">MES Implementacija</span>
+              </button>
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="Sledenje proizvodnje"
+                data-description="Digitalizacija sledenja materialnim tokovom in polizdelkom skozi celoten proizvodni proces."
+                data-url="/storitve/sledenje-proizvodnje/"
+                aria-label="Sledenje proizvodnje">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label">Sledenje proizvodnje</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Level 2 – SCADA (top 43%; h=19%; pad=19%) -->
+          <div
+            class="sap-level sap-level--scada"
+            style="--level-top: 43%; --level-h: 19%; --level-pad: 19%"
+            role="listitem">
+            <div class="sap-level__header">
+              <span class="sap-level__name">SCADA</span>
+              <span class="sap-level__sub">Supervision Level</span>
+            </div>
+            <div class="sap-level__services">
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="SCADA Sistemi"
+                data-description="Razvoj in implementacija nadzornih sistemov za spremljanje in vodenje industrijskih procesov z grafičnimi vmesniki v realnem času."
+                data-url="/storitve/scada-sistemi/"
+                aria-label="SCADA Sistemi">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label">SCADA Sistemi</span>
+              </button>
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="Alarmni sistemi"
+                data-description="Konfiguracija naprednih alarmnih sistemov z eskalacijskimi protokoli in arhiviranjem dogodkov."
+                data-url="/storitve/alarmni-sistemi/"
+                aria-label="Alarmni sistemi">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label">Alarmni sistemi</span>
+              </button>
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="Poročanje &amp; KPI"
+                data-description="Avtomatsko generiranje poročil o delovanju naprav, porabi energije in kakovosti proizvodnje."
+                data-url="/storitve/porocanje-kpi/"
+                aria-label="Poročanje &amp; KPI">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label">Poročanje &amp; KPI</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Level 3 – PLC/PAC (top 62%; h=19%; pad=9.5%) -->
+          <div
+            class="sap-level sap-level--plc"
+            style="--level-top: 62%; --level-h: 19%; --level-pad: 9.5%"
+            role="listitem">
+            <div class="sap-level__header">
+              <span class="sap-level__name">PLC / PAC</span>
+              <span class="sap-level__sub">Control Level</span>
+            </div>
+            <div class="sap-level__services">
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="PLC Programiranje"
+                data-description="Razvoj in optimizacija krmilniških programov za avtomatizacijo strojev in procesnih linij (Siemens, Allen-Bradley, Beckhoff)."
+                data-url="/storitve/plc-programiranje/"
+                aria-label="PLC Programiranje">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label">PLC Programiranje</span>
+              </button>
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="Robotska integracija"
+                data-description="Integracija industrijskih robotov v obstoječe proizvodne linije z varnostnimi in komunikacijskimi protokoli."
+                data-url="/storitve/robotska-integracija/"
+                aria-label="Robotska integracija">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label">Robotska integracija</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Level 4 – Field Level (top 81%; h=19%; pad=1.5%) -->
+          <div
+            class="sap-level sap-level--field"
+            style="--level-top: 81%; --level-h: 19%; --level-pad: 1.5%"
+            role="listitem">
+            <div class="sap-level__header">
+              <span class="sap-level__name">Senzorji &amp; Aktuatorji</span>
+              <span class="sap-level__sub">Field Level</span>
+            </div>
+            <div class="sap-level__services">
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="Senzorska Integracija"
+                data-description="Izbira, namestitev in konfiguracija merilnih senzorjev (tlak, temperatura, pretok, položaj) za zanesljiv zajem podatkov."
+                data-url="/storitve/senzorska-integracija/"
+                aria-label="Senzorska Integracija">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label"
+                  >Senzorska Integracija</span
+                >
+              </button>
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="Aktuatorji &amp; Pogoni"
+                data-description="Integracija elektromotornih pogonov, pnevmatskih in hidravličnih aktuatorjev z ustreznimi varnostnimi sistemi."
+                data-url="/storitve/aktuatorji-pogoni/"
+                aria-label="Aktuatorji &amp; Pogoni">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label"
+                  >Aktuatorji &amp; Pogoni</span
+                >
+              </button>
+              <button
+                class="sap-service-btn"
+                type="button"
+                data-name="Industrijske mreže"
+                data-description="Načrtovanje in vzpostavitev industrijskih komunikacijskih omrežij (PROFIBUS, PROFINET, EtherNet/IP, Modbus)."
+                data-url="/storitve/industrijske-mreze/"
+                aria-label="Industrijske mreže">
+                <span class="sap-service-btn__dot" aria-hidden="true"></span>
+                <span class="sap-service-btn__label">Industrijske mreže</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- .sap-pyramid -->
+
+        <!-- Overlay -->
+        <div class="sap-overlay" id="sap-overlay" aria-hidden="true"></div>
+
+        <!-- Popup -->
+        <div
+          class="sap-popup"
+          id="sap-popup"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="sap-popup-title"
+          aria-hidden="true">
+          <button
+            class="sap-popup__close"
+            id="sap-popup-close"
+            type="button"
+            aria-label="Zapri">
+            &#x2715;
+          </button>
+          <h3 class="sap-popup__title" id="sap-popup-title"></h3>
+          <p class="sap-popup__desc" id="sap-popup-desc"></p>
+          <a class="sap-popup__link" id="sap-popup-link" href="#"
+            >Izvedite več &rarr;</a
+          >
+        </div>
+      </div>
+      <!-- .sap-wrapper -->
+    </main>
+
+    <!--
+	jQuery stub — in WordPress, jQuery is loaded by WordPress core.
+	For this standalone test we load it from a CDN.
+-->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"></script>
+
+    <!-- Plugin JS (relative path from test.html location) -->
+    <script src="assets/js/pyramid.js"></script>
+  </body>
+</html>
