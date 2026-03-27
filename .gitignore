@@ -1,0 +1,65 @@
+# ── Standalone test files (browser-only previews, not for deployment) ──
+# test.html files are committed to the repo so developers can open them directly
+# after cloning, but you may add the line below to your personal .git/info/exclude
+# if you want to keep local copies untracked:
+#   **/test.html
+
+# ── WordPress core (if accidentally checked out here) ──
+wp-admin/
+wp-includes/
+wp-login.php
+wp-cron.php
+wp-blog-header.php
+wp-load.php
+wp-settings.php
+wp-activate.php
+wp-signup.php
+wp-trackback.php
+xmlrpc.php
+index.php
+license.txt
+readme.html
+
+# ── WordPress uploads & cache ──
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup-db/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+sitemap.xml
+sitemap.xml.gz
+
+# ── WordPress config ──
+wp-config.php
+wp-config-local.php
+wp-config-sample.php
+*.log
+debug.log
+
+# ── OS files ──
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor / IDE ──
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# ── Node / npm ──
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# ── Build artefacts ──
+dist/
+build/
+*.min.js
+*.min.css
