@@ -99,25 +99,25 @@
 		<div class="sap-pyramid" role="list" aria-label="CIM Automation Pyramid">
 
 		<!-- SVG: colored triangle bands that form the pyramid visual -->
-		<svg class="sap-pyramid__bg" viewBox="0 0 860 500" aria-hidden="true" focusable="false">
-			<!-- Band fills (apex=430,0 → base=0,500 and 860,500; 5 equal bands of 100px) -->
-			<polygon class="sap-bg-band sap-bg-band--erp"   points="430,0 516,100 344,100"/>
-			<polygon class="sap-bg-band sap-bg-band--mes"   points="344,100 516,100 602,200 258,200"/>
-			<polygon class="sap-bg-band sap-bg-band--scada" points="258,200 602,200 688,300 172,300"/>
-			<polygon class="sap-bg-band sap-bg-band--plc"   points="172,300 688,300 774,400 86,400"/>
-			<polygon class="sap-bg-band sap-bg-band--field" points="86,400 774,400 860,500 0,500"/>
+		<svg class="sap-pyramid__bg" viewBox="0 0 860 700" aria-hidden="true" focusable="false">
+			<!-- Band fills (apex=430,0 → base=0,700 and 860,700; 5 equal bands of 140px) -->
+			<polygon class="sap-bg-band sap-bg-band--erp"   points="430,0 516,140 344,140"/>
+			<polygon class="sap-bg-band sap-bg-band--mes"   points="344,140 516,140 602,280 258,280"/>
+			<polygon class="sap-bg-band sap-bg-band--scada" points="258,280 602,280 688,420 172,420"/>
+			<polygon class="sap-bg-band sap-bg-band--plc"   points="172,420 688,420 774,560 86,560"/>
+			<polygon class="sap-bg-band sap-bg-band--field" points="86,560 774,560 860,700 0,700"/>
 			<!-- Separator lines between bands -->
-			<line class="sap-divider" x1="344" y1="100" x2="516" y2="100"/>
-			<line class="sap-divider" x1="258" y1="200" x2="602" y2="200"/>
-			<line class="sap-divider" x1="172" y1="300" x2="688" y2="300"/>
-			<line class="sap-divider" x1="86"  y1="400" x2="774" y2="400"/>
+			<line class="sap-divider" x1="344" y1="140" x2="516" y2="140"/>
+			<line class="sap-divider" x1="258" y1="280" x2="602" y2="280"/>
+			<line class="sap-divider" x1="172" y1="420" x2="688" y2="420"/>
+			<line class="sap-divider" x1="86"  y1="560" x2="774" y2="560"/>
 		</svg>
 
 		<!-- Level content: absolutely positioned over the SVG -->
 
-		<!-- Level 0 – ERP (top 20%; pad=42%) -->
+		<!-- Level 0 – ERP (top 20%; pad=40%) -->
 		<div class="sap-level sap-level--erp"
-		     style="--level-top:0%;--level-h:20%;--level-pad:42%"
+		     style="--level-top:0%;--level-h:20%;--level-pad:40%"
 		     role="listitem">
 				<div class="sap-level__header">
 					<span class="sap-level__name">ERP</span>
@@ -145,7 +145,7 @@
 
 			<!-- Level 1 – MES (top 20-40%; pad=32%) -->
 			<div class="sap-level sap-level--mes"
-			     style="--level-top:20%;--level-h:20%;--level-pad:32%"
+			     style="--level-top:20%;--level-h:20%;--level-pad:30%"
 			     role="listitem">
 				<div class="sap-level__header">
 					<span class="sap-level__name">MES</span>
@@ -173,7 +173,7 @@
 
 			<!-- Level 2 – SCADA (top 40-60%; pad=22%) -->
 			<div class="sap-level sap-level--scada"
-			     style="--level-top:40%;--level-h:20%;--level-pad:22%"
+			     style="--level-top:40%;--level-h:20%;--level-pad:20%"
 			     role="listitem">
 				<div class="sap-level__header">
 					<span class="sap-level__name">SCADA</span>
@@ -209,7 +209,7 @@
 
 			<!-- Level 3 – PLC/PAC (top 60-80%; pad=12%) -->
 			<div class="sap-level sap-level--plc"
-			     style="--level-top:60%;--level-h:20%;--level-pad:12%"
+			     style="--level-top:60%;--level-h:20%;--level-pad:10%"
 			     role="listitem">
 				<div class="sap-level__header">
 					<span class="sap-level__name">PLC / PAC</span>

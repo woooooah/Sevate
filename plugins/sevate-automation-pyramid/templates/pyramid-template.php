@@ -13,14 +13,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 $total_levels = count( $levels );
 
 /*
- * SVG viewport: 860 × 500 units.  The isosceles triangle has its
- * apex at (430, 0) and base corners at (0, 500) and (860, 500).
+ * SVG viewport: 860 × 700 units.  The isosceles triangle has its
+ * apex at (430, 0) and base corners at (0, 700) and (860, 700).
+ * A taller viewport (700 vs 500) gives each of the 5 equal bands
+ * 140 SVG units of height instead of 100, providing more vertical
+ * room for labels and buttons within each band.
  * N equal horizontal bands divide the triangle; each band is a
  * polygon whose left/right edges lie exactly on the triangle sides,
  * guaranteeing a perfectly straight pyramid silhouette.
  */
 $vb_w   = 860;
-$vb_h   = 500;
+$vb_h   = 700;
 $band_h = $vb_h / $total_levels;
 
 $geo = array();
@@ -46,7 +49,10 @@ foreach ( $levels as $i => $lv ) {
 	}
 
 	// CSS custom properties for the absolutely-positioned content overlay.
-	// --level-pad: keep text inside the band's bottom (widest) edge + 2% margin.
+	// --level-pad: horizontal padding equal to the triangle edge at the
+	// bottom of the band.  No extra margin so every available pixel of
+	// width is usable (content is pushed to flex-end, so it sits right
+	// at the widest part of the band).
 	$geo[ $i ] = array(
 		'points'  => $pts,
 		'xl1'     => round( $xl1 ),
@@ -54,7 +60,7 @@ foreach ( $levels as $i => $lv ) {
 		'y1'      => round( $y1 ),
 		'top_pct' => round( $y0 / $vb_h * 100, 4 ),
 		'h_pct'   => round( 100 / $total_levels, 4 ),
-		'pad_pct' => max( 2.0, round( $xl1 / $vb_w * 100 + 2, 1 ) ),
+		'pad_pct' => max( 1.5, round( $xl1 / $vb_w * 100, 1 ) ),
 	);
 }
 ?>
