@@ -1,0 +1,81 @@
+/* =============================================================
+   Sevate Automation Pyramid – test-preview.css
+   Page chrome for test.html standalone preview.
+   This file is NOT loaded by WordPress — only by test.html.
+   ============================================================= */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	background: #0d1b2a;
+	color: #ffffff;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* ── Test header bar ──────────────────────────────────────── */
+.preview-header {
+	width: 100%;
+	padding: 24px 40px;
+	background: #1a2332;
+	border-bottom: 2px solid #16a085;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.preview-header__logo {
+	font-size: 1.4rem;
+	font-weight: 800;
+	letter-spacing: 1px;
+	color: #16a085;
+}
+
+.preview-header__logo span {
+	color: #ffffff;
+}
+
+.preview-header__badge {
+	font-size: 0.72rem;
+	background: rgba(22, 160, 133, 0.2);
+	border: 1px solid #16a085;
+	color: #16a085;
+	padding: 2px 8px;
+	border-radius: 20px;
+	letter-spacing: 0.5px;
+}
+
+/* ── Main content area ────────────────────────────────────── */
+.preview-main {
+	width: 100%;
+	max-width: 1000px;
+	padding: 40px 20px 80px;
+}
+
+.preview-main__title {
+	text-align: center;
+	font-size: 1.8rem;
+	font-weight: 700;
+	margin: 0 0 8px;
+	color: #ffffff;
+}
+
+.preview-main__subtitle {
+	text-align: center;
+	color: rgba(255, 255, 255, 0.55);
+	font-size: 0.9rem;
+	margin: 0 0 48px;
+}
+
+/* ── Override pyramid wrapper for dark preview page ──────── */
+.sap-wrapper {
+	background: transparent;
+}
