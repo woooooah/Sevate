@@ -12,70 +12,79 @@
 }
 
 /* ── Pyramid container ──────────────────────────────────────── */
+/*
+ * clip-path clips the entire pyramid (SVG + content overlays) to a
+ * perfect isosceles triangle.  filter:drop-shadow adds a soft teal
+ * glow that traces the triangular outline without any extra markup.
+ */
 .sap-pyramid {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 0;
-	margin: 0 auto;
+	position: relative;
 	max-width: 860px;
+	margin: 0 auto;
+	aspect-ratio: 860 / 500;
+	clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+	filter: drop-shadow(0 0 9px rgba(22, 160, 133, 0.45));
 }
 
-/* ── Individual level ───────────────────────────────────────── */
+/* ── SVG pyramid background ─────────────────────────────────── */
+.sap-pyramid__bg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.sap-bg-band {
+	transition: filter 0.2s ease;
+}
+
+.sap-bg-band:hover,
+.sap-bg-band.is-hovered {
+	filter: brightness(1.28);
+}
+
+.sap-bg-band--erp   { fill: #0d3b33; }
+.sap-bg-band--mes   { fill: #0f4840; }
+.sap-bg-band--scada { fill: #11574c; }
+.sap-bg-band--plc   { fill: #146659; }
+.sap-bg-band--field { fill: #177668; }
+
+.sap-divider {
+	stroke: rgba(255, 255, 255, 0.18);
+	stroke-width: 1.5;
+}
+
+/* ── Individual level (content overlay) ────────────────────── */
 /*
- * The trapezoid background is drawn on ::before so the clip-path
- * only masks the background layer — content (text, buttons) is
- * never cut off regardless of level width.
+ * Levels are absolutely positioned over the SVG.
+ * pointer-events: none passes mouse events through to the SVG
+ * polygons below so their CSS :hover brightness effect works.
+ * Interactive children explicitly re-enable pointer events.
  */
 .sap-level {
-	position: relative;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: var(--level-top, 0%);
+	height: var(--level-h, 20%);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	min-height: 76px;
-	/*
-	 * --level-pad is computed per-level in PHP so content stays clear
-	 * of the slanted edges at the narrowest (top) part of each band.
-	 */
-	padding: 14px var(--level-pad, 13%);
-	background: transparent;
+	padding: 4px var(--level-pad, 5%);
 	text-align: center;
-	gap: 8px;
+	gap: 6px;
+	pointer-events: none;
 }
 
-/* Trapezoid background — clip-path applied here so content is never masked */
-.sap-level::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	z-index: 0;
-	/*
-	 * --level-clip is set inline per level by PHP.
-	 * Each value is computed so the diagonal edges across all bands
-	 * form a single straight line — a true pyramid silhouette.
-	 */
-	clip-path: var(--level-clip);
-	/* Thin separator between bands */
-	box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.22);
-	transition: filter 0.2s ease;
+/* Re-enable pointer events for interactive children */
+.sap-level__header,
+.sap-level__services {
+	pointer-events: all;
 }
-
-.sap-level:hover::before {
-	filter: brightness(1.22);
-}
-
-/* Level background colors — applied to the ::before pseudo-element */
-.sap-level--erp::before    { background: #0d3b33; }
-.sap-level--mes::before    { background: #0f4840; }
-.sap-level--scada::before  { background: #11574c; }
-.sap-level--plc::before    { background: #146659; }
-.sap-level--field::before  { background: #177668; }
 
 /* ── Level header (name + sublabel) ────────────────────────── */
 .sap-level__header {
-	position: relative;
-	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -97,8 +106,6 @@
 
 /* ── Service buttons row ────────────────────────────────────── */
 .sap-level__services {
-	position: relative;
-	z-index: 1;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 7px;
@@ -259,14 +266,42 @@
 
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 640px) {
-	.sap-level {
-		padding: 12px 8%;
-		width: 100% !important;   /* override inline width on small screens */
+	/*
+	 * On narrow screens the aspect-ratio pyramid becomes too short
+	 * for content.  Switch to a simple centered staircase column.
+	 */
+	.sap-pyramid {
+		aspect-ratio: auto;
+		clip-path: none;
+		filter: none;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 4px;
 	}
 
-	.sap-level::before {
-		clip-path: none !important;
-		border-radius: 6px;
+	.sap-pyramid__bg {
+		display: none;
+	}
+
+	.sap-level {
+		position: static;
+		height: auto !important;
+		min-height: 60px;
+		padding: 10px 8%;
+		pointer-events: all;
+		border-radius: 4px;
+	}
+
+	/* Staircase widths for a pyramid-like appearance on mobile */
+	.sap-level--erp   { width: 40%; background: #0d3b33; }
+	.sap-level--mes   { width: 55%; background: #0f4840; }
+	.sap-level--scada { width: 70%; background: #11574c; }
+	.sap-level--plc   { width: 85%; background: #146659; }
+	.sap-level--field { width: 100%; background: #177668; }
+
+	.sap-level:hover {
+		filter: brightness(1.2);
 	}
 
 	.sap-popup {

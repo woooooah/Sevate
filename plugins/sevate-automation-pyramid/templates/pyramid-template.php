@@ -11,37 +11,79 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $total_levels = count( $levels );
+
+/*
+ * SVG viewport: 860 × 500 units.  The isosceles triangle has its
+ * apex at (430, 0) and base corners at (0, 500) and (860, 500).
+ * N equal horizontal bands divide the triangle; each band is a
+ * polygon whose left/right edges lie exactly on the triangle sides,
+ * guaranteeing a perfectly straight pyramid silhouette.
+ */
+$vb_w   = 860;
+$vb_h   = 500;
+$band_h = $vb_h / $total_levels;
+
+$geo = array();
+foreach ( $levels as $i => $lv ) {
+	$y0  = $i * $band_h;
+	$y1  = ( $i + 1 ) * $band_h;
+	// x-coordinates of the triangle edge at y0 and y1
+	$xl0 = $vb_w / 2 * ( 1 - $y0 / $vb_h );
+	$xr0 = $vb_w / 2 * ( 1 + $y0 / $vb_h );
+	$xl1 = $vb_w / 2 * ( 1 - $y1 / $vb_h );
+	$xr1 = $vb_w / 2 * ( 1 + $y1 / $vb_h );
+
+	// Polygon points: level 0 (apex) is a triangle, others are trapezoids
+	if ( 0 === $i ) {
+		$pts = round( $vb_w / 2 ) . ',0 '
+			. round( $xr1 ) . ',' . round( $y1 ) . ' '
+			. round( $xl1 ) . ',' . round( $y1 );
+	} else {
+		$pts = round( $xl0 ) . ',' . round( $y0 ) . ' '
+			. round( $xr0 ) . ',' . round( $y0 ) . ' '
+			. round( $xr1 ) . ',' . round( $y1 ) . ' '
+			. round( $xl1 ) . ',' . round( $y1 );
+	}
+
+	// CSS custom properties for the absolutely-positioned content overlay.
+	// --level-pad: keep text inside the band's bottom (widest) edge + 2% margin.
+	$geo[ $i ] = array(
+		'points'  => $pts,
+		'xl1'     => round( $xl1 ),
+		'xr1'     => round( $xr1 ),
+		'y1'      => round( $y1 ),
+		'top_pct' => round( $y0 / $vb_h * 100, 4 ),
+		'h_pct'   => round( 100 / $total_levels, 4 ),
+		'pad_pct' => max( 2.0, round( $xl1 / $vb_w * 100 + 2, 1 ) ),
+	);
+}
 ?>
 <div class="sap-wrapper">
 
 	<div class="sap-pyramid" role="list" aria-label="<?php esc_attr_e( 'CIM Automation Pyramid', 'sevate-automation-pyramid' ); ?>">
 
-		<?php foreach ( $levels as $index => $level ) :
-		/*
-		 * Pyramid geometry — apex = 12%, base = 88% of container width.
-		 * Each level's div width = the BOTTOM edge of its trapezoid band.
-		 * The clip-path top-inset is derived so every band's slanted edge
-		 * is collinear with every other band's — producing a true pyramid
-		 * outline with perfectly straight sides.
-		 *
-		 *   top_inset = (w_bot - w_top) / (2 * w_bot)
-		 *             = step / (2 * w_bot)
-		 */
-		$t_pct      = 12.0;
-		$b_pct      = 88.0;
-		$step       = $total_levels > 1
-			? ( $b_pct - $t_pct ) / $total_levels
-			: $b_pct - $t_pct;
-		$w_bot      = round( $t_pct + ( $index + 1 ) * $step, 2 );
-		$top_inset  = round( $step / ( 2 * $w_bot ) * 100, 2 );
-		$bot_inset  = 100 - $top_inset;
-		$clip_path  = "polygon({$top_inset}% 0%, {$bot_inset}% 0%, 100% 100%, 0% 100%)";
-		/* Content padding: half the top-inset + 3% safety margin keeps
-		 * text and buttons visually inside the trapezoid background. */
-		$pad_h      = round( $top_inset / 2 + 3, 1 );
-	?>
+		<!-- SVG: colored triangle bands that form the pyramid visual -->
+		<svg class="sap-pyramid__bg" viewBox="0 0 <?php echo esc_attr( $vb_w ); ?> <?php echo esc_attr( $vb_h ); ?>" aria-hidden="true" focusable="false">
+			<?php foreach ( $levels as $i => $level ) : ?>
+			<polygon
+				class="sap-bg-band sap-bg-band--<?php echo esc_attr( $level['id'] ); ?>"
+				points="<?php echo esc_attr( $geo[ $i ]['points'] ); ?>"/>
+			<?php endforeach; ?>
+
+			<!-- Separator lines between bands -->
+			<?php for ( $i = 0; $i < $total_levels - 1; $i++ ) : ?>
+			<line class="sap-divider"
+			      x1="<?php echo esc_attr( $geo[ $i ]['xl1'] ); ?>" y1="<?php echo esc_attr( $geo[ $i ]['y1'] ); ?>"
+			      x2="<?php echo esc_attr( $geo[ $i ]['xr1'] ); ?>" y2="<?php echo esc_attr( $geo[ $i ]['y1'] ); ?>"/>
+			<?php endfor; ?>
+		</svg>
+
+		<!-- Level content: absolutely positioned over the SVG -->
+		<?php foreach ( $levels as $i => $level ) :
+			$g = $geo[ $i ];
+		?>
 		<div class="sap-level sap-level--<?php echo esc_attr( $level['id'] ); ?>"
-		     style="width:<?php echo esc_attr( $w_bot ); ?>%; --level-clip:<?php echo esc_attr( $clip_path ); ?>; --level-pad:<?php echo esc_attr( $pad_h ); ?>%"
+		     style="--level-top:<?php echo esc_attr( $g['top_pct'] ); ?>%;--level-h:<?php echo esc_attr( $g['h_pct'] ); ?>%;--level-pad:<?php echo esc_attr( $g['pad_pct'] ); ?>%"
 		     role="listitem">
 
 			<div class="sap-level__header">

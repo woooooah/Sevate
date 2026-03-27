@@ -61,6 +61,28 @@
 		$(document).on('click', '#sap-popup', function (e) {
 			e.stopPropagation();
 		});
+
+		// ── SVG band hover sync ───────────────────────────────────
+		// When the mouse enters interactive content (header / services),
+		// pass the hover signal to the corresponding SVG polygon so the
+		// band brightens.  A short timeout prevents a flash when the
+		// pointer moves between the header and services of the same level.
+		var hoverTimers = {};
+
+		$(document).on('mouseenter', '.sap-level__header, .sap-level__services', function () {
+			var m = $(this).closest('.sap-level')[0].className.match(/sap-level--(\w+)/);
+			if ( ! m ) { return; }
+			var id = m[1];
+			clearTimeout( hoverTimers[ id ] );
+			$( '.sap-bg-band--' + id ).addClass( 'is-hovered' );
+		} ).on( 'mouseleave', '.sap-level__header, .sap-level__services', function () {
+			var m = $(this).closest('.sap-level')[0].className.match(/sap-level--(\w+)/);
+			if ( ! m ) { return; }
+			var id = m[1];
+			hoverTimers[ id ] = setTimeout( function () {
+				$( '.sap-bg-band--' + id ).removeClass( 'is-hovered' );
+			}, 60 );
+		} );
 	});
 
 }(jQuery));
