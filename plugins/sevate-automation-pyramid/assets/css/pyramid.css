@@ -16,56 +16,70 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 5px;
+	gap: 3px;
 	margin: 0 auto;
 	max-width: 860px;
 }
 
 /* ── Individual level ───────────────────────────────────────── */
+/*
+ * The trapezoid background is drawn on ::before so the clip-path
+ * only masks the background layer — content (text, buttons) is
+ * never cut off regardless of level width.
+ */
 .sap-level {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	min-height: 56px;
-	padding: 8px 16px;
-	border-radius: 3px;
-	background: #1a2332;
-	transition: filter 0.2s ease, transform 0.15s ease;
 	position: relative;
-	gap: 12px;
-	/* clip-path creates the trapezoid / pyramid slice look */
-	clip-path: polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%);
-}
-
-.sap-level:first-child {
-	clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
-}
-
-.sap-level:last-child {
-	clip-path: none;
-	border-radius: 3px;
-}
-
-.sap-level:hover {
-	filter: brightness(1.25);
-	transform: scaleY(1.04);
-	z-index: 1;
-}
-
-/* Teal accent stripes — each level gets a slightly lighter teal shade */
-.sap-level--erp    { background: #0e3d35; }
-.sap-level--mes    { background: #0f4a3f; }
-.sap-level--scada  { background: #125a4b; }
-.sap-level--plc    { background: #156b59; }
-.sap-level--field  { background: #177d68; }
-
-/* ── Level labels ───────────────────────────────────────────── */
-.sap-level__labels {
 	display: flex;
 	flex-direction: column;
-	align-items: flex-start;
-	min-width: 110px;
-	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	min-height: 76px;
+	padding: 14px 13%;   /* horizontal padding keeps content clear of angled edges */
+	background: transparent;
+	text-align: center;
+	gap: 8px;
+}
+
+/* Trapezoid background */
+.sap-level::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%);
+	transition: filter 0.2s ease;
+}
+
+/* Top level: steeper taper so the peak looks sharp */
+.sap-level:first-child::before {
+	clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+}
+
+/* Bottom level: flat rectangle, no taper */
+.sap-level:last-child::before {
+	clip-path: none;
+	border-radius: 0 0 4px 4px;
+}
+
+.sap-level:hover::before {
+	filter: brightness(1.22);
+}
+
+/* Level background colors — applied to the ::before pseudo-element */
+.sap-level--erp::before    { background: #0d3b33; }
+.sap-level--mes::before    { background: #0f4840; }
+.sap-level--scada::before  { background: #11574c; }
+.sap-level--plc::before    { background: #146659; }
+.sap-level--field::before  { background: #177668; }
+
+/* ── Level header (name + sublabel) ────────────────────────── */
+.sap-level__header {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
 }
 
 .sap-level__name {
@@ -73,22 +87,23 @@
 	font-weight: 700;
 	font-size: 1rem;
 	line-height: 1.2;
-	white-space: nowrap;
 }
 
 .sap-level__sub {
-	color: rgba(255, 255, 255, 0.60);
-	font-size: 0.72rem;
-	white-space: nowrap;
+	color: rgba(255, 255, 255, 0.55);
+	font-size: 0.70rem;
+	line-height: 1.2;
 }
 
 /* ── Service buttons row ────────────────────────────────────── */
 .sap-level__services {
+	position: relative;
+	z-index: 1;
 	display: flex;
 	flex-wrap: wrap;
-	gap: 8px;
-	justify-content: flex-end;
-	flex: 1;
+	gap: 7px;
+	justify-content: center;
+	align-items: center;
 }
 
 /* ── Individual service button ──────────────────────────────── */
@@ -245,24 +260,14 @@
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 640px) {
 	.sap-level {
-		flex-direction: column;
-		align-items: flex-start;
-		clip-path: none !important;
-		border-radius: 6px;
-		padding: 10px 14px;
+		padding: 12px 8%;
 		width: 100% !important;   /* override inline width on small screens */
 	}
 
-	.sap-level__labels {
-		min-width: unset;
-	}
-
-	.sap-level__services {
-		justify-content: flex-start;
-	}
-
-	.sap-service-btn {
-		font-size: 0.82rem;
+	.sap-level::before,
+	.sap-level:first-child::before {
+		clip-path: none !important;
+		border-radius: 6px;
 	}
 
 	.sap-popup {

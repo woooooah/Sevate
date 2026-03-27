@@ -27,7 +27,7 @@ $total_levels = count( $levels );
 		     style="width:<?php echo esc_attr( $width ); ?>%"
 		     role="listitem">
 
-			<div class="sap-level__labels">
+			<div class="sap-level__header">
 				<span class="sap-level__name"><?php echo esc_html( $level['label'] ); ?></span>
 				<span class="sap-level__sub"><?php echo esc_html( $level['sublabel'] ); ?></span>
 			</div>
