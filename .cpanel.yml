@@ -3,3 +3,5 @@ deployment:
     tasks:
         - export DEPLOYPATH=/home/sevate82/public_html/wp-content/themes/hello-elementor-child
         - /bin/cp -R themes/hello-elementor-child/* $DEPLOYPATH
+        - export PLUGINPATH=/home/sevate82/public_html/wp-content/plugins/sevate-automation-pyramid
+        - /bin/cp -R plugins/sevate-automation-pyramid/* $PLUGINPATH
