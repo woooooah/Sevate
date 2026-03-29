@@ -2,8 +2,8 @@
 # test.html files are committed to the repo so developers can open them directly
 # after cloning, but you may add the line below to your personal .git/info/exclude
 # if you want to keep local copies untracked:
-**/test.html
-**/test-preview.css
+#**/test.html
+#**/test-preview.css
 # ── WordPress core (if accidentally checked out here) ──
 wp-admin/
 wp-includes/
