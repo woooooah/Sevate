@@ -2,3 +2,44 @@
     Theme Name: Hello Elementor Child
     Template: hello-elementor
 */
+
+/*  KONTAKTNI OBRAZEC  */
+
+.wpcf7 input[type="submit"] {
+    background-color: #415a77;
+    color: white;
+    border: none;
+    display: block !important;
+    margin: 13px auto !important;
+    font-weight: bold !important;
+}
+
+.wpcf7 input[type="text"],
+.wpcf7 input[type="email"],
+.wpcf7 textarea {
+    padding: 10px 14px !important;
+    margin-bottom: 16px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+}
+
+.wpcf7 label input,
+.wpcf7 label textarea {
+    display: block !important;
+}
+
+.wpcf7-response-output {
+    border: 2px solid #778da9 !important;
+    border-radius: 5px !important;
+    margin-top: -30px !important;
+    text-align: center;
+}
+
+.wpcf7-not-valid-tip {
+    color: #778da9 !important;
+    margin-top: -10px !important;
+    margin-bottom: 20px !important;
+    font-size: 13px !important;
+    font-weight: bold;
+    font-style: italic;
+}
