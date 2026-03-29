@@ -50,10 +50,15 @@
       var xl1p = parseFloat(((xl1 / vbW) * 100).toFixed(1));
       var xr1p = parseFloat(((xr1 / vbW) * 100).toFixed(1));
       var clipPath;
+      var apexPaddingTopPct = 0;
       if (i === 0) {
-        // Apex: clip below the empty triangle tip (services start below it)
-        var perSvcH = cfg.BAND_HEIGHTS[1] / levels[1].services.length;
+        // Apex: clip below the empty triangle tip (services start below it).
+        // perSvcH ≈ row_h (60 SVG units); guard against empty logika (div/0).
+        var svcCount1 = levels[1] ? levels[1].services.length : 0;
+        var perSvcH = svcCount1 > 0 ? cfg.BAND_HEIGHTS[1] / svcCount1 : 60;
         var apexH = bandH - level.services.length * perSvcH;
+        // padding-top % is relative to container WIDTH in CSS, so convert via vbW
+        apexPaddingTopPct = parseFloat(((apexH / vbW) * 100).toFixed(2));
         var xl_sv = parseFloat(
           ((((vbW / 2) * (1 - apexH / vbH)) / vbW) * 100).toFixed(1),
         );
@@ -99,6 +104,7 @@
         hPct: parseFloat(((bandH / vbH) * 100).toFixed(4)),
         padPct: Math.max(1.5, parseFloat(((xl1 / vbW) * 100).toFixed(1))),
         clipPath: clipPath,
+        apexPaddingTopPct: apexPaddingTopPct,
       });
     });
 
@@ -148,6 +154,11 @@
   function buildPyramid(levels, geo, cfg) {
     var h =
       '<div class="sap-pyramid-wrap"><div class="sap-pyramid"' +
+      ' style="aspect-ratio:' +
+      cfg.VB_W +
+      "/" +
+      cfg.VB_H +
+      '"' +
       ' role="list" aria-label="Piramida celostne avtomatizacije">';
 
     // SVG colored bands
@@ -190,11 +201,8 @@
     // Content overlays
     levels.forEach(function (level, i) {
       var g = geo[i];
-      h +=
-        '<div class="sap-level sap-level--' +
-        esc(level.id) +
-        '" role="listitem"' +
-        ' style="--level-top:' +
+      var levelStyle =
+        "--level-top:" +
         g.topPct +
         "%;--level-h:" +
         g.hPct +
@@ -202,6 +210,15 @@
         g.padPct +
         "%;clip-path:" +
         g.clipPath +
+        (g.apexPaddingTopPct
+          ? ";padding-top:" + g.apexPaddingTopPct + "%"
+          : "");
+      h +=
+        '<div class="sap-level sap-level--' +
+        esc(level.id) +
+        '" role="listitem"' +
+        ' style="' +
+        levelStyle +
         '">';
       h += '<div class="sap-level__services">';
 
@@ -277,7 +294,7 @@
       typeof SAP_LEVELS === "undefined"
     ) {
       // eslint-disable-next-line no-console
-      console.error("Sevate Pyramid: pyramid-data.js not loaded.");
+      console.error("Sevate Pyramid: SAP_CONFIG or SAP_LEVELS not defined (wp_localize_script failed?).");
       return;
     }
 

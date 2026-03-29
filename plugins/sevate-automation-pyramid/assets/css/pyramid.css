@@ -113,7 +113,8 @@
 #sap-root .sap-pyramid {
   position: relative;
   width: 100%;
-  aspect-ratio: 860 / 690;
+  /* Fallback aspect-ratio; overridden by inline style set from cfg.VB_W/VB_H in pyramid.js */
+  aspect-ratio: 860 / 750;
 }
 
 /* ── SVG pyramid background ─────────────────────────────────── */
@@ -185,10 +186,6 @@
 
 #sap-root .sap-level--fizika .sap-level__services {
   border-bottom-color: rgba(27, 38, 59, 0.2);
-}
-
-#sap-root .sap-level--vidik {
-  padding-top: 10.47%;
 }
 
 /* ── Service buttons ─────────────────────────────────────────── */

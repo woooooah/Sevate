@@ -1,12 +1,14 @@
 /* Sevate Automation Pyramid – pyramid-data.js
-   Single source of truth for all pyramid content and geometry constants.
-   Must be loaded before pyramid.js.
+   STANDALONE TEST ONLY — loaded exclusively by test.html.
+   In WordPress, SAP_LEVELS is injected by wp_localize_script() in
+   class-pyramid.php and built dynamically from the 'storitev' CPT.
+   Keep this file in sync with the live CPT data for accurate previews.
    ============================================================= */
 
 window.SAP_CONFIG = {
   VB_W: 860,
-  VB_H: 690,
-  BAND_HEIGHTS: [270, 180, 240], // vidik | logika | fizika  (top → bottom)
+  VB_H: 750,
+  BAND_HEIGHTS: [330, 180, 240], // vidik(apex_extra=150+3×60) | logika | fizika
 };
 
 window.SAP_LEVELS = [
