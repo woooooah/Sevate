@@ -51,9 +51,9 @@ function zaposlitve() {
         $output .= '<div class = "zaposlitev">';
         $output .= '<h2>' . $ime . '</h2>';
         $output .= '<h3>' . $tip . '</h3>';
-        $output .= '<p>' . $placa . '  |  ' . $rok_prijave . '</p>';
+        $output .= '<div class="placa_rok"<p>' . $placa . '  |  ' . $rok_prijave . '</p>';
         $output .= '<p>' . $opis . '</p>';
-        $output .= '<a href="#prijava" class="btn-prijava">Prijavi se</a>';
+        $output .= '<div class="prijava-btn"><a href="#prijava" class="btn-prijava">Prijavi se</a></div>';
         $output .= '</div>';
     }
 
