@@ -2,11 +2,13 @@
 /**
  * Pyramid level & service data.
  *
- * Single source of truth for all pyramid content.
- * Levels are ordered top → bottom (index 0 = apex).
+ * get_levels() reads from the 'storitev' Custom Post Type and ACF fields:
+ *   - sloj_piramide  (select: fizika | logika | vidik)
+ *   - vrstni_red     (number: order within the layer)
+ *   - kratki_opis    (textarea: short description for the popup)
  *
- * In a future release, get_levels() will read from WordPress Options
- * via a Settings page so admins can edit content without touching code.
+ * Layer metadata (label, sublabel, description) remains static here
+ * because it describes the architectural concept, not individual services.
  *
  * @package Sevate_Automation_Pyramid
  */
@@ -18,98 +20,90 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Sevate_Pyramid_Data {
 
 	/**
-	 * Returns all pyramid levels with their services.
-	 *
-	 * Each level:
-	 *   id          string  CSS identifier (vidik | logika | fizika)
-	 *   label       string  Level name shown in the left annotation panel
-	 *   sublabel    string  Short category label shown below the name
-	 *   description string  One-sentence explanation of the level's role
-	 *   services    array   List of service items (see below)
-	 *
-	 * Each service:
-	 *   name        string  Button label and detail-panel heading
-	 *   description string  Detail-panel body text
-	 *   url         string  "Izvedite več" link target
+	 * Layer metadata — static architectural definitions.
+	 * Ordered top → bottom (vidik → logika → fizika).
+	 */
+	private static $layer_meta = array(
+		'vidik'  => array(
+			'label'       => 'Vidik & Inteligenca',
+			'sublabel'    => 'Vrh',
+			'description' => 'Človeški vmesnik sistema. Podatke iz spodnjih nivojev spremenimo v uporabno informacijo — vizualizacija, nadzor in povezava z višjimi poslovnimi sistemi.',
+		),
+		'logika' => array(
+			'label'       => 'Logika & Nadzor',
+			'sublabel'    => 'Jedro',
+			'description' => 'Možgani avtomatiziranega sistema. Fizični svet postane inteligenten — avtomatika, krmilna logika in medsebojna integracija naprav.',
+		),
+		'fizika' => array(
+			'label'       => 'Fizika & Energetika',
+			'sublabel'    => 'Osnova',
+			'description' => 'Trdni temelji brez katerih višji nivoji ne delujejo. Strojna oprema, elektrika, senzorji in aktuatorji — elektrotehniko in strojništvo združimo v celoto.',
+		),
+	);
+
+	/**
+	 * Returns all pyramid levels with their services, built dynamically
+	 * from the 'storitev' CPT and ACF meta fields.
 	 *
 	 * @return array<int, array>
 	 */
 	public static function get_levels() {
-		return array(
-			array(
-				'id'          => 'vidik',
-				'label'       => 'Vidik & Inteligenca',
-				'sublabel'    => 'Vrh',
-				'description' => 'Človeški vmesnik sistema. Podatke iz spodnjih nivojev spremenimo v uporabno informacijo — vizualizacija, nadzor in povezava z višjimi poslovnimi sistemi.',
-				'services'    => array(
-					array(
-						'name'        => 'SCADA sistemi',
-						'description' => 'Razvoj nadzornih centrov (WinCC, Ignition, ipd.) za spremljanje celotne proizvodnje v realnem času.',
-						'url'         => '/storitve/scada-sistemi/',
-					),
-					array(
-						'name'        => 'Operaterski paneli (HMI)',
-						'description' => 'Izdelava intuitivnih lokalnih zaslonov za upravljanje strojev neposredno na terenu.',
-						'url'         => '/storitve/operaterski-paneli/',
-					),
-					array(
-						'name'        => 'MES / ERP',
-						'description' => 'Razvoj orodij za zajem podatkov in povezavo z MES ali ERP sistemi — vrh CIM piramide.',
-						'url'         => '/storitve/mes-erp/',
-					),
-				),
-			),
-			array(
-				'id'          => 'logika',
-				'label'       => 'Logika & Nadzor',
-				'sublabel'    => 'Jedro',
-				'description' => 'Možgani avtomatiziranega sistema. Fizični svet postane inteligenten — avtomatika, krmilna logika in medsebojna integracija naprav.',
-				'services'    => array(
-					array(
-						'name'        => 'PLC programiranje',
-						'description' => 'Razvoj krmilne logike (Siemens, Rockwell, Beckhoff, ipd.) za upravljanje procesov in strojev.',
-						'url'         => '/storitve/plc-programiranje/',
-					),
-					array(
-						'name'        => 'Sistemska integracija',
-						'description' => 'Povezovanje različnih naprav (pogoni, frekvenčni regulatorji, senzorji) v enotno delujoč sistem.',
-						'url'         => '/storitve/sistemska-integracija/',
-					),
-					array(
-						'name'        => 'Testiranje & zagon',
-						'description' => 'Štartanje linij, parametrizacija in optimizacija delovanja sistema v realnem času.',
-						'url'         => '/storitve/testiranje-zagon/',
-					),
-				),
-			),
-			array(
-				'id'          => 'fizika',
-				'label'       => 'Fizika & Energetika',
-				'sublabel'    => 'Osnova',
-				'description' => 'Trdni temelji brez katerih višji nivoji ne delujejo. Strojna oprema, elektrika, senzorji in aktuatorji — elektrotehniko in strojništvo združimo v celoto.',
-				'services'    => array(
-					array(
-						'name'        => 'E-plan',
-						'description' => 'Projektiranje in izdelava popolne tehnične dokumentacije v skladu z industrijskimi standardi.',
-						'url'         => '/storitve/e-plan/',
-					),
-					array(
-						'name'        => 'Strojna izvedba',
-						'description' => 'Izdelava elektro omaric, kabelskih poti, nabava ustrezne opreme od preverjenih dobaviteljev.',
-						'url'         => '/storitve/strojna-izvedba/',
-					),
-					array(
-						'name'        => 'Montaža',
-						'description' => 'Montaža senzorjev, aktuatorjev in ostale terenske opreme po projektni dokumentaciji.',
-						'url'         => '/storitve/montaza/',
-					),
-					array(
-						'name'        => 'IO testiranje',
-						'description' => 'Preverjanje integritete signalov, testiranje senzorjev in izvršnih elementov – zagotovilo, da "žica drži".',
-						'url'         => '/storitve/io-testiranje/',
-					),
-				),
-			),
+		$grouped = array(
+			'vidik'  => array(),
+			'logika' => array(),
+			'fizika' => array(),
 		);
+
+		$query = new WP_Query( array(
+			'post_type'      => 'storitev',
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'orderby'        => 'meta_value_num',
+			'meta_key'       => 'vrstni_red',
+			'order'          => 'ASC',
+			'no_found_rows'  => true,
+		) );
+
+		foreach ( $query->posts as $post ) {
+			$sloj  = get_post_meta( $post->ID, 'sloj_piramide', true );
+			$opis  = get_post_meta( $post->ID, 'kratki_opis', true );
+			$order = (int) get_post_meta( $post->ID, 'vrstni_red', true );
+
+			if ( ! isset( $grouped[ $sloj ] ) ) {
+				continue;
+			}
+
+			$grouped[ $sloj ][] = array(
+				'name'        => get_the_title( $post ),
+				'description' => wp_strip_all_tags( $opis ),
+				'url'         => get_permalink( $post ),
+				'_order'      => $order,
+			);
+		}
+
+		wp_reset_postdata();
+
+		// Sort each layer by vrstni_red and strip internal key.
+		foreach ( $grouped as &$services ) {
+			usort( $services, static function ( $a, $b ) {
+				return $a['_order'] - $b['_order'];
+			} );
+			foreach ( $services as &$s ) {
+				unset( $s['_order'] );
+			}
+		}
+		unset( $services, $s );
+
+		// Build final array top → bottom.
+		$levels = array();
+		foreach ( array_keys( self::$layer_meta ) as $id ) {
+			$levels[] = array_merge(
+				array( 'id' => $id ),
+				self::$layer_meta[ $id ],
+				array( 'services' => $grouped[ $id ] )
+			);
+		}
+
+		return $levels;
 	}
 }

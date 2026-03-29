@@ -53,13 +53,33 @@ class Sevate_Automation_Pyramid {
 		);
 
 		// Pass PHP data to JS — single source of truth, pyramid-data.js not loaded in WP.
+		$levels = Sevate_Pyramid_Data::get_levels();
+
+		// Dynamic band heights: each service row = 60 SVG units.
+		// Apex (index 0) reserves 150 units for the empty triangle tip so
+		// services start lower where the pyramid is wider.
+		// Other bands have a 120-unit minimum so they never collapse.
+		$row_h       = 60;
+		$apex_extra  = 150;
+		$min_band_h  = 120;
+		$band_heights = array();
+
+		foreach ( $levels as $i => $level ) {
+			$count = count( $level['services'] );
+			if ( $i === 0 ) {
+				$band_heights[] = $apex_extra + max( $row_h, $count * $row_h );
+			} else {
+				$band_heights[] = max( $min_band_h, $count * $row_h );
+			}
+		}
+
 		wp_localize_script( 'sevate-pyramid', 'SAP_CONFIG', array(
 			'VB_W'         => 860,
-			'VB_H'         => 690,
-			'BAND_HEIGHTS' => array( 270, 180, 240 ),
+			'VB_H'         => array_sum( $band_heights ),
+			'BAND_HEIGHTS' => $band_heights,
 		) );
 
-		wp_localize_script( 'sevate-pyramid', 'SAP_LEVELS', Sevate_Pyramid_Data::get_levels() );
+		wp_localize_script( 'sevate-pyramid', 'SAP_LEVELS', $levels );
 	}
 
 	/**
