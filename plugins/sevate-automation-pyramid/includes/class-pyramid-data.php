@@ -30,7 +30,7 @@ class Sevate_Pyramid_Data {
 	 * Each service:
 	 *   name        string  Button label and detail-panel heading
 	 *   description string  Detail-panel body text
-	 *   page_url    string  "Izvedite več" link target
+	 *   url         string  "Izvedite več" link target
 	 *
 	 * @return array<int, array>
 	 */
@@ -45,17 +45,17 @@ class Sevate_Pyramid_Data {
 					array(
 						'name'        => 'SCADA sistemi',
 						'description' => 'Razvoj nadzornih centrov (WinCC, Ignition, ipd.) za spremljanje celotne proizvodnje v realnem času.',
-						'page_url'    => '/storitve/scada-sistemi/',
+						'url'         => '/storitve/scada-sistemi/',
 					),
 					array(
 						'name'        => 'Operaterski paneli (HMI)',
 						'description' => 'Izdelava intuitivnih lokalnih zaslonov za upravljanje strojev neposredno na terenu.',
-						'page_url'    => '/storitve/operaterski-paneli/',
+						'url'         => '/storitve/operaterski-paneli/',
 					),
 					array(
 						'name'        => 'MES / ERP',
 						'description' => 'Razvoj orodij za zajem podatkov in povezavo z MES ali ERP sistemi — vrh CIM piramide.',
-						'page_url'    => '/storitve/mes-erp/',
+						'url'         => '/storitve/mes-erp/',
 					),
 				),
 			),
@@ -68,17 +68,17 @@ class Sevate_Pyramid_Data {
 					array(
 						'name'        => 'PLC programiranje',
 						'description' => 'Razvoj krmilne logike (Siemens, Rockwell, Beckhoff, ipd.) za upravljanje procesov in strojev.',
-						'page_url'    => '/storitve/plc-programiranje/',
+						'url'         => '/storitve/plc-programiranje/',
 					),
 					array(
 						'name'        => 'Sistemska integracija',
 						'description' => 'Povezovanje različnih naprav (pogoni, frekvenčni regulatorji, senzorji) v enotno delujoč sistem.',
-						'page_url'    => '/storitve/sistemska-integracija/',
+						'url'         => '/storitve/sistemska-integracija/',
 					),
 					array(
 						'name'        => 'Testiranje & zagon',
 						'description' => 'Štartanje linij, parametrizacija in optimizacija delovanja sistema v realnem času.',
-						'page_url'    => '/storitve/testiranje-zagon/',
+						'url'         => '/storitve/testiranje-zagon/',
 					),
 				),
 			),
@@ -91,22 +91,22 @@ class Sevate_Pyramid_Data {
 					array(
 						'name'        => 'E-plan',
 						'description' => 'Projektiranje in izdelava popolne tehnične dokumentacije v skladu z industrijskimi standardi.',
-						'page_url'    => '/storitve/e-plan/',
+						'url'         => '/storitve/e-plan/',
 					),
 					array(
 						'name'        => 'Strojna izvedba',
 						'description' => 'Izdelava elektro omaric, kabelskih poti, nabava ustrezne opreme od preverjenih dobaviteljev.',
-						'page_url'    => '/storitve/strojna-izvedba/',
+						'url'         => '/storitve/strojna-izvedba/',
 					),
 					array(
 						'name'        => 'Montaža',
 						'description' => 'Montaža senzorjev, aktuatorjev in ostale terenske opreme po projektni dokumentaciji.',
-						'page_url'    => '/storitve/montaza/',
+						'url'         => '/storitve/montaza/',
 					),
 					array(
 						'name'        => 'IO testiranje',
 						'description' => 'Preverjanje integritete signalov, testiranje senzorjev in izvršnih elementov – zagotovilo, da "žica drži".',
-						'page_url'    => '/storitve/io-testiranje/',
+						'url'         => '/storitve/io-testiranje/',
 					),
 				),
 			),

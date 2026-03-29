@@ -2,44 +2,47 @@
    Sevate Automation Pyramid – pyramid.css
    Layout: 3-column grid  (annotations | pyramid | detail panel)
    Levels: vidik (top) · logika (middle) · fizika (bottom)
+
+   All selectors are scoped under #sap-root to guarantee higher
+   specificity than any theme/Elementor class selector, preventing
+   style bleed from the child theme or page builder CSS.
    ============================================================= */
 
 /* ── Wrapper ────────────────────────────────────────────────── */
-.sap-wrapper {
+#sap-root {
   position: relative;
   padding: 32px 0 48px;
   font-family: inherit;
-  max-width: 1440px;
-  margin: 0 auto;
+  box-sizing: border-box;
+  /* Break out of any narrow Elementor/theme content container and
+     span the full viewport width, just like test.html would.
+     margin-left: calc((100% - 100vw)/2) shifts left by the difference
+     between the parent content width and the viewport width. */
+  width: 100vw;
+  margin-left: calc((100% - 100vw) / 2);
+  overflow-x: hidden;
 }
 
 /* ── 3-column layout ─────────────────────────────────────────── */
-/*
- * grid-template-areas keeps source order independent of visual order.
- * align-items: stretch is critical — it makes the annotations and
- * detail columns the same height as the pyramid column so that
- * position:absolute children inside them can use percentages.
- */
-.sap-layout {
+#sap-root .sap-layout {
   display: grid;
   grid-template-columns: 260px 1fr 420px;
   grid-template-areas: "annotations pyramid detail";
   align-items: stretch;
   gap: 0;
+  /* cap the inner layout so it doesn't stretch beyond 1440px */
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 /* ── Annotations panel (left column) ────────────────────────── */
-/*
- * Clean borderless design: level name (right-aligned) + gradient
- * horizontal line that fades in toward the pyramid face.
- */
-.sap-annotations {
+#sap-root .sap-annotations {
   grid-area: annotations;
   position: relative;
   padding-right: 0;
 }
 
-.sap-annotation {
+#sap-root .sap-annotation {
   position: absolute;
   left: 0;
   right: 0;
@@ -52,8 +55,7 @@
   padding-right: 6px;
 }
 
-/* Gradient line: transparent at far-left, solid at pyramid face */
-.sap-annotation__hline {
+#sap-root .sap-annotation__hline {
   flex: 1;
   height: 1.5px;
   background: linear-gradient(
@@ -65,12 +67,12 @@
   opacity: 0.6;
 }
 
-.sap-annotation__label {
+#sap-root .sap-annotation__label {
   flex-shrink: 0;
   text-align: right;
 }
 
-.sap-annotation__sub {
+#sap-root .sap-annotation__sub {
   display: block;
   font-size: 0.75rem;
   opacity: 0.5;
@@ -79,7 +81,7 @@
   margin-bottom: 2px;
 }
 
-.sap-annotation__name {
+#sap-root .sap-annotation__name {
   display: block;
   font-size: 1.1rem;
   font-weight: 700;
@@ -88,30 +90,34 @@
 }
 
 /* Per-level accent colors */
-.sap-annotation--vidik {
+#sap-root .sap-annotation--vidik {
   --ann-color: #1b263b;
 }
-.sap-annotation--logika {
+#sap-root .sap-annotation--logika {
   --ann-color: #415a77;
 }
-.sap-annotation--fizika {
+#sap-root .sap-annotation--fizika {
   --ann-color: #778da9;
 }
 
 /* ── Pyramid wrap (center column) ───────────────────────────── */
-.sap-pyramid-wrap {
+#sap-root .sap-pyramid-wrap {
   grid-area: pyramid;
+  /* Enable container queries so child font sizes can scale with
+     the actual rendered width of the pyramid column. */
+  container-type: inline-size;
+  container-name: pyramid;
 }
 
 /* ── Pyramid container ───────────────────────────────────────── */
-.sap-pyramid {
+#sap-root .sap-pyramid {
   position: relative;
   width: 100%;
   aspect-ratio: 860 / 690;
 }
 
 /* ── SVG pyramid background ─────────────────────────────────── */
-.sap-pyramid__bg {
+#sap-root .sap-pyramid__bg {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -119,38 +125,33 @@
   filter: drop-shadow(0 2px 16px rgba(13, 27, 42, 0.3));
 }
 
-.sap-bg-band {
+#sap-root .sap-bg-band {
   transition: filter 0.2s ease;
 }
 
-.sap-bg-band:hover,
-.sap-bg-band.is-hovered {
+#sap-root .sap-bg-band:hover,
+#sap-root .sap-bg-band.is-hovered {
   filter: brightness(1.13);
 }
 
 /* 3-level color scheme (dark → medium → light, top → bottom) */
-.sap-bg-band--vidik {
+#sap-root .sap-bg-band--vidik {
   fill: #0d1b2a;
 }
-.sap-bg-band--logika {
+#sap-root .sap-bg-band--logika {
   fill: #415a77;
 }
-.sap-bg-band--fizika {
+#sap-root .sap-bg-band--fizika {
   fill: #e0e1dd;
 }
 
-.sap-divider {
+#sap-root .sap-divider {
   stroke: rgba(255, 255, 255, 0.15);
   stroke-width: 1;
 }
 
 /* ── Level content overlay ───────────────────────────────────── */
-/*
- * Content is centered vertically in each band (justify-content: center).
- * With 3 tall bands there is enough room to center rather than bottom-align.
- * pointer-events: none passes hover through to the SVG polygons.
- */
-.sap-level {
+#sap-root .sap-level {
   position: absolute;
   left: 0;
   right: 0;
@@ -167,14 +168,7 @@
 }
 
 /* ── Per-level service layouts ───────────────────────────────── */
-/*
- * All levels share the same vertical stacked design:
- * - Services stacked column, centred, full-width within padding.
- * - clip-path (injected by JS) hard-clips each band to its exact
- *   triangle/trapezoid so content never bleeds into an adjacent band.
- * - Per-level padding-left/right controls usable button width.
- */
-.sap-level__services {
+#sap-root .sap-level__services {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -184,20 +178,21 @@
   width: 100%;
   justify-content: flex-start;
   pointer-events: all;
+  /* bottom border mirrors the border-top on each button, so the last
+     service has the same visual breathing room as the ones above it */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Apex band: push services below the empty triangle tip.
-   10.47% = 90 SVG units / VB_W (860) — matches the clip-path offset. */
-.sap-level--vidik {
+#sap-root .sap-level--fizika .sap-level__services {
+  border-bottom-color: rgba(27, 38, 59, 0.2);
+}
+
+#sap-root .sap-level--vidik {
   padding-top: 10.47%;
 }
 
 /* ── Service buttons ─────────────────────────────────────────── */
-/*
- * Full-width stacked text buttons with a thin transparent border.
- * Active state (currently selected service) gets higher contrast.
- */
-.sap-service-btn {
+#sap-root .sap-service-btn {
   width: 100%;
   flex: 1;
   white-space: normal;
@@ -210,51 +205,58 @@
   padding: 11px 10px;
   cursor: pointer;
   color: #ffffff;
-  font-size: 0.95rem;
+  /* font scales proportionally with the pyramid column width:
+     2cqi = ~0.95rem at 760px (full) → shrinks smoothly on narrower layouts.
+     clamp floor (0.5rem) prevents text from becoming unreadable. */
+  font-size: clamp(0.5rem, 2cqi, 0.95rem);
   font-weight: 500;
   transition:
     background 0.15s ease,
     transform 0.12s ease;
+  /* reset any theme button styles */
+  box-shadow: none;
+  outline: none;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
-.sap-service-btn:first-child {
+#sap-root .sap-service-btn:first-child {
   border-top: none;
 }
 
-.sap-service-btn:hover {
+#sap-root .sap-service-btn:hover {
   background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  transform: none;
+  box-shadow: none;
 }
 
-.sap-service-btn:focus-visible {
+#sap-root .sap-service-btn:focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.7);
   outline-offset: -2px;
 }
 
-.sap-service-btn.is-active {
+#sap-root .sap-service-btn.is-active {
   background: rgba(255, 255, 255, 0.22);
 }
 
 /* fizika band is light — use dark text for contrast */
-.sap-level--fizika .sap-service-btn {
+#sap-root .sap-level--fizika .sap-service-btn {
   color: #1b263b;
   border-top-color: rgba(27, 38, 59, 0.2);
 }
 
-.sap-level--fizika .sap-service-btn:hover {
+#sap-root .sap-level--fizika .sap-service-btn:hover {
   background: rgba(27, 38, 59, 0.08);
+  color: #1b263b;
 }
 
-.sap-level--fizika .sap-service-btn.is-active {
+#sap-root .sap-level--fizika .sap-service-btn.is-active {
   background: rgba(27, 38, 59, 0.16);
 }
 
 /* ── Detail panel (right column) ────────────────────────────── */
-/*
- * Always visible as a column. Placeholder text shown when nothing
- * is selected; .sap-detail__card shown when a service is clicked.
- * White card background ensures readability on any page background.
- */
-.sap-detail {
+#sap-root .sap-detail {
   grid-area: detail;
   padding-left: 24px;
   position: relative;
@@ -263,7 +265,7 @@
   justify-content: center;
 }
 
-.sap-detail__card {
+#sap-root .sap-detail__card {
   background: #ffffff;
   border-radius: 10px;
   padding: 28px;
@@ -273,11 +275,11 @@
   gap: 16px;
 }
 
-.sap-detail__card[hidden] {
+#sap-root .sap-detail__card[hidden] {
   display: none;
 }
 
-.sap-detail__close {
+#sap-root .sap-detail__close {
   align-self: flex-end;
   background: none;
   border: 1px solid rgba(119, 141, 169, 0.35);
@@ -290,14 +292,18 @@
   transition:
     background 0.15s ease,
     color 0.15s ease;
+  box-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
-.sap-detail__close:hover {
+#sap-root .sap-detail__close:hover {
   background: #f0f4f7;
   color: #0d1b2a;
+  box-shadow: none;
 }
 
-.sap-detail__name {
+#sap-root .sap-detail__name {
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.35;
@@ -305,18 +311,18 @@
   color: #0d1b2a;
 }
 
-.sap-detail__desc {
+#sap-root .sap-detail__desc {
   font-size: 1rem;
   line-height: 1.7;
   margin: 0;
   color: #415a77;
 }
 
-.sap-detail__link {
+#sap-root .sap-detail__link {
   display: inline-block;
   background: #415a77;
-  color: #ffffff !important;
-  text-decoration: none !important;
+  color: #ffffff;
+  text-decoration: none;
   padding: 12px 26px;
   border-radius: 5px;
   font-size: 1rem;
@@ -327,27 +333,23 @@
     transform 0.15s ease;
 }
 
-.sap-detail__link:hover,
-.sap-detail__link:focus-visible {
+#sap-root .sap-detail__link:hover,
+#sap-root .sap-detail__link:focus-visible {
   background: #0d1b2a;
+  color: #ffffff;
+  text-decoration: none;
   transform: translateY(-2px);
   outline: none;
 }
 
 /* ── Right-side level annotations ───────────────────────────── */
-/*
- * Absolutely fills the detail column (same height as pyramid via grid
- * align-items:stretch). Each band uses the same --ann-top/--ann-h
- * percentages as the left annotations so they align perfectly.
- * Hides when a service card is shown.
- */
-.sap-right-annotations {
+#sap-root .sap-right-annotations {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.sap-ann-right {
+#sap-root .sap-ann-right {
   position: absolute;
   left: 0;
   right: 0;
@@ -360,8 +362,7 @@
   padding-left: 6px;
 }
 
-/* Short solid line connecting from pyramid right face to text */
-.sap-ann-right__hline {
+#sap-root .sap-ann-right__hline {
   flex-shrink: 0;
   width: 22px;
   height: 1.5px;
@@ -370,25 +371,25 @@
   opacity: 0.6;
 }
 
-.sap-ann-right__inner {
+#sap-root .sap-ann-right__inner {
   flex: 1;
   overflow: hidden;
 }
 
-.sap-ann-right__desc {
+#sap-root .sap-ann-right__desc {
   font-size: 0.95rem;
   line-height: 1.55;
   margin: 0;
   opacity: 0.72;
 }
 
-.sap-ann-right--vidik {
+#sap-root .sap-ann-right--vidik {
   --ann-color: #1b263b;
 }
-.sap-ann-right--logika {
+#sap-root .sap-ann-right--logika {
   --ann-color: #415a77;
 }
-.sap-ann-right--fizika {
+#sap-root .sap-ann-right--fizika {
   --ann-color: #778da9;
 }
 
@@ -396,40 +397,36 @@
 
 /* Tablet (≤960px): move detail panel below pyramid + annotations */
 @media (max-width: 960px) {
-  .sap-layout {
+  #sap-root .sap-layout {
     grid-template-columns: 200px 1fr;
     grid-template-areas:
       "annotations pyramid"
       "detail      detail";
   }
 
-  .sap-detail {
+  #sap-root .sap-detail {
     border-top: 1px solid rgba(119, 141, 169, 0.2);
     padding-left: 0;
     padding-top: 20px;
     justify-content: flex-start;
   }
 
-  /* Hide right annotations on tablet — detail card takes over */
-  .sap-right-annotations {
+  #sap-root .sap-right-annotations {
     display: none;
   }
 
-  .sap-detail__card {
+  #sap-root .sap-detail__card {
     max-width: 480px;
   }
 
-  /* Scale down annotation text at tablet width */
-  .sap-annotation__name {
+  #sap-root .sap-annotation__name {
     font-size: 0.92rem;
   }
-  .sap-annotation__sub {
+  #sap-root .sap-annotation__sub {
     font-size: 0.65rem;
   }
 
-  /* Shrink service buttons so they stay within their bands. */
-  .sap-service-btn {
-    font-size: 0.8rem;
+  #sap-root .sap-service-btn {
     padding: 6px 8px;
     flex: 0 1 auto;
   }
@@ -437,19 +434,18 @@
 
 /* Mobile (≤600px): hide annotations, single column */
 @media (max-width: 600px) {
-  .sap-layout {
+  #sap-root .sap-layout {
     grid-template-columns: 1fr;
     grid-template-areas:
       "pyramid"
       "detail";
   }
 
-  .sap-annotations {
+  #sap-root .sap-annotations {
     display: none;
   }
 
-  /* Staircase fallback when SVG cannot render usably */
-  .sap-pyramid {
+  #sap-root .sap-pyramid {
     aspect-ratio: auto;
     display: flex;
     flex-direction: column;
@@ -457,11 +453,11 @@
     gap: 4px;
   }
 
-  .sap-pyramid__bg {
+  #sap-root .sap-pyramid__bg {
     display: none;
   }
 
-  .sap-level {
+  #sap-root .sap-level {
     position: static;
     height: auto !important;
     clip-path: none !important;
@@ -473,24 +469,24 @@
     width: 100%;
   }
 
-  .sap-level__services {
+  #sap-root .sap-level__services {
     flex: 0 1 auto;
   }
 
-  .sap-service-btn {
+  #sap-root .sap-service-btn {
     flex: 0 1 auto;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
   }
 
-  .sap-level--vidik {
+  #sap-root .sap-level--vidik {
     background: #0d1b2a;
     width: 55%;
   }
-  .sap-level--logika {
+  #sap-root .sap-level--logika {
     background: #415a77;
     width: 77%;
   }
-  .sap-level--fizika {
+  #sap-root .sap-level--fizika {
     background: #e0e1dd;
     width: 100%;
   }

@@ -10,5 +10,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="sap-wrapper"></div>
+<div id="sap-root" class="sap-wrapper"></div>
 

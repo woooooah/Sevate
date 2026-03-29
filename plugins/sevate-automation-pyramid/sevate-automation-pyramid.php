@@ -22,5 +22,7 @@ define( 'SAP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 require_once SAP_PLUGIN_DIR . 'includes/class-pyramid-data.php';
 require_once SAP_PLUGIN_DIR . 'includes/class-pyramid.php';
 
-new Sevate_Automation_Pyramid();
+add_action( 'plugins_loaded', function () {
+	new Sevate_Automation_Pyramid();
+} );
 
