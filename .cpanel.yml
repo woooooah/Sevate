@@ -5,3 +5,5 @@ deployment:
         - /bin/cp -R themes/hello-elementor-child/* $DEPLOYPATH
         - export PLUGINPATH=/home/sevate82/public_html/wp-content/plugins/sevate-automation-pyramid
         - /bin/cp -R plugins/sevate-automation-pyramid/* $PLUGINPATH
+        - export PLUGINPATH2=/home/sevate82/public_html/wp-content/plugins/zaposlitve
+        - /bin/cp -R plugins/zaposlitve/* $PLUGINPATH2
