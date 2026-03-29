@@ -43,3 +43,32 @@
     font-weight: bold;
     font-style: italic;
 }
+
+/* ZAPOSLITVE */
+
+.zaposlitve {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 20px;
+}
+
+.zaposlitev {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.zaposlitev p {
+    text-align: justify;
+}
+
+@media (max-width: 768px) {
+    .zaposlitve {
+        grid-template-columns: 1fr;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
