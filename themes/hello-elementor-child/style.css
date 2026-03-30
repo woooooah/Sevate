@@ -81,3 +81,18 @@ html {
     text-decoration: none !important;
     border-radius: 4px;
 }
+
+/* FAQ-plugin */
+
+.faq-item {
+    margin-bottom: 20px;
+}
+
+.faq-question {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.faq-answer {
+    margin-top: 5px;
+}
