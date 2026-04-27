@@ -103,86 +103,86 @@ html {
 /* FAQ-plugin - Accordion Style */
 
 .faq-accordion {
-    background: #E0E1DD;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    background: #E0E1DD !important;
+    padding: 20px !important;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
 }
 
 .faq-accordion-item {
-    margin-bottom: 5px;
-    margin-top: 5px;
-    /* border-bottom: 1px solid #415A77; */
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+    /* border-bottom: 1px solid #415A77 !important; */
 }
 
 .faq-accordion-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
 }
 
 .faq-accordion-header {
-    margin: 0;
+    margin: 0 !important;
 }
 
 .faq-question {
-    margin: 0;
+    margin: 0 !important;
 }
 
 .faq-accordion-button {
-    background: none;
-    border: none;
-    width: 100%;
-    text-align: left;
-    padding: 15px 10px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #415A77;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background-color 0.3s ease;
-    font-family: inherit;
+    background: none !important;
+    border: none !important;
+    width: 100% !important;
+    text-align: left !important;
+    padding: 15px 10px !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #415A77 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    transition: background-color 0.3s ease !important;
+    font-family: inherit !important;
 }
 
 .faq-accordion-button:hover, .faq-accordion-button:focus {
-    background-color: rgba(65, 90, 119, 0.05);
-    color: #415A77;
+    background-color: rgba(65, 90, 119, 0.05) !important;
+    color: #415A77 !important;
 }
 
 .faq-accordion-icon {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #415A77;
-    transition: transform 0.3s ease;
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    color: #415A77 !important;
+    transition: transform 0.3s ease !important;
 }
 
 .faq-accordion-content {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.4s ease-out, opacity 0.3s ease;
-    padding-left: 10px;
-    padding-right: 10px;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    transition: max-height 0.4s ease-out, opacity 0.3s ease !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
 }
 
 .faq-answer {
-    padding-bottom: 20px;
-    color: #415A77;
-    line-height: 1.6;
+    padding-bottom: 20px !important;
+    color: #415A77 !important;
+    line-height: 1.6 !important;
 }
 
 .faq-answer p {
-    margin: 0 0 10px 0;
+    margin: 0 0 10px 0 !important;
 }
 
 .faq-answer p:last-child {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
 }
 
 /* Optional: Add a subtle animation when opening */
 .faq-accordion-content[style*="max-height"] {
-    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease !important;
 }
 
 /* ************************************************************************************** */
@@ -190,104 +190,104 @@ html {
 /* Story-plugin */
 /* Timeline container */
 .timeline {
-    position: relative;
-    padding-left: 40px;
+    position: relative !important;
+    padding-left: 40px !important;
 }
 
 /* Vertical line */
 .timeline::before {
-    content: '';
-    position: absolute;
-    left: 15px;
-    top: 0;
-    width: 4px;
-    height: 100%;
-    background: #415a77;
+    content: '' !important;
+    position: absolute !important;
+    left: 15px !important;
+    top: 0 !important;
+    width: 4px !important;
+    height: 100% !important;
+    background: #415a77 !important;
 }
 
 /* Timeline item */
 .timeline-item {
-    position: relative;
-    margin-bottom: 30px;
+    position: relative !important;
+    margin-bottom: 30px !important;
 }
 
 /* Marker (dot) */
 .timeline-marker {
-    position: absolute;
-    left: -30px;
-    top: 5px;
-    width: 14px;
-    height: 14px;
-    background: #fff;
-    border-radius: 50%;
-    border: 3px solid #415a77;
-    z-index: 2;
+    position: absolute !important;
+    left: -30px !important;
+    top: 5px !important;
+    width: 14px !important;
+    height: 14px !important;
+    background: #fff !important;
+    border-radius: 50% !important;
+    border: 3px solid #415a77 !important;
+    z-index: 2 !important;
 }
 
 /* Content layout (image left, text right) */
 .timeline-content {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
 
-    background: #415a77;
-    padding: 20px;
-    border-radius: 10px;
-    color: #fff;
+    background: #415a77 !important;
+    padding: 20px !important;
+    border-radius: 10px !important;
+    color: #fff !important;
 }
 
 /* Alternate item styling */
 .timeline-item-alt .timeline-content {
-    background: #e0e1dd;
-    color: #000;
+    background: #e0e1dd !important;
+    color: #000 !important;
 }
 
 .timeline-item-alt .timeline-year {
-    color: #333;
+    color: #333 !important;
 }
 
 .timeline-item-alt .timeline-description {
-    color: #222;
+    color: #222 !important;
 }
 
 .timeline-item-alt .timeline-marker {
-    background: #1d3557;
+    background: #1d3557 !important;
 }
 
 /* Image */
 .timeline-image {
-    flex-shrink: 0;
+    flex-shrink: 0 !important;
 }
 
 .timeline-image img {
-    max-width: 150px;
-    border-radius: 8px;
+    max-width: 150px !important;
+    border-radius: 8px !important;
 }
 
 /* Text block */
 .timeline-text {
-    flex-grow: 1;
+    flex-grow: 1 !important;
 }
 
 /* Typography */
 .timeline-title {
-    margin: 0 0 5px 0;
+    margin: 0 0 5px 0 !important;
 }
 
 .timeline-year {
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #e0e1dd;
+    font-weight: bold !important;
+    margin-bottom: 10px !important;
+    color: #e0e1dd !important;
 }
 
 .timeline-description {
-    color: #f0f0f0;
+    color: #f0f0f0 !important;
 }
 
 /* Mobile */
 @media (max-width: 600px) {
     .timeline-content {
-        flex-direction: column;
+        flex-direction: column !important;
     }
 }
 
@@ -296,50 +296,50 @@ html {
 /* Tehnologije in oprema plugin  */
 
 .tehnologije-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+    gap: 20px !important;
 }
 
 .tehnologija-card {
-    background: #415a77;
-    /* color: #fff; */
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
+    background: #415a77 !important;
+    /* color: #fff !important; */
+    padding: 20px !important;
+    border-radius: 10px !important;
+    text-align: center !important;
 }
 
 .tehnologija-image img {
-    max-width: 100px;
-    margin-bottom: 10px;
+    max-width: 100px !important;
+    margin-bottom: 10px !important;
 }
 
 .tehnologija-title {
-    margin: 10px 0 5px 0;
+    margin: 10px 0 5px 0 !important;
 }
 
 .tehnologija-nivo {
-    font-weight: bold;
-    margin-bottom: 10px;
-    /* color: #e0e1dd; */
+    font-weight: bold !important;
+    margin-bottom: 10px !important;
+    /* color: #e0e1dd !important; */
 }
 
 .tehnologija-opis {
-    font-size: 14px;
-    /* color: #f0f0f0; */
+    font-size: 14px !important;
+    /* color: #f0f0f0 !important; */
 }
 
 .tehnologija-osnova {
-    color: #0D1B2A;
-    background-color: #E0E1DD;
+    color: #0D1B2A !important;
+    background-color: #E0E1DD !important;
 }
 
 .tehnologija-jedro {
-    color: #E0E1DD;
-    background-color: #415A77;
+    color: #E0E1DD !important;
+    background-color: #415A77 !important;
 }
 
 .tehnologija-vrh {
-    color: #E0E1DD;
-    background-color: #0D1B2A;
+    color: #E0E1DD !important;
+    background-color: #0D1B2A !important;
 }
