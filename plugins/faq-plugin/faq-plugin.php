@@ -28,7 +28,7 @@ function faq_register_post_type() {
         'labels' => $labels,
         'public' => true,
         'menu_icon' => 'dashicons-editor-help',
-        'supports' => ['title', 'editor'],
+        'supports' => ['title'],
         'has_archive' => true,
     ]);
 }
@@ -51,22 +51,63 @@ function faq_shortcode() {
     }
 
     ob_start();
+    ?>
 
-    echo '<div class="faq-container">';
+    <div class="faq-accordion">
+        <?php while ($query->have_posts()) : $query->the_post(); 
+            $odgovor = get_field('answer');
+            $unique_id = uniqid('faq-');
+        ?>
+            <div class="faq-accordion-item">
+                <div class="faq-accordion-header" id="heading-<?php echo esc_attr($unique_id); ?>">
+                    <h3 class="faq-question">
+                        <button class="faq-accordion-button" aria-expanded="false" aria-controls="content-<?php echo esc_attr($unique_id); ?>">
+                            <?php echo get_the_title(); ?>
+                            <span class="faq-accordion-icon">+</span>
+                        </button>
+                    </h3>
+                </div>
+                <div class="faq-accordion-content" id="content-<?php echo esc_attr($unique_id); ?>" aria-labelledby="heading-<?php echo esc_attr($unique_id); ?>">
+                    <div class="faq-answer">
+                        <?php echo $odgovor; ?>
+                    </div>
+                </div>
+            </div>
+            <!-- // add hr after each faq item except the last one -->
+            <?php if (!$query->current_post == $query->post_count - 1) : ?>
+                <hr>
+            <?php endif; ?>
 
-    while ($query->have_posts()) {
-        $query->the_post();
+        <?php endwhile; ?>
+    </div>
 
-        echo '<div class="faq-item">';
-        echo '<h3 class="faq-question">' . get_the_title() . '</h3>';
-        echo '<div class="faq-answer">' . get_the_content() . '</div>';
-        echo '</div>';
-    }
+    <script>
+    (function() {
+        const buttons = document.querySelectorAll('.faq-accordion-button');
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                const expanded = this.getAttribute('aria-expanded') === 'true' ? false : true;
+                const content = this.closest('.faq-accordion-item').querySelector('.faq-accordion-content');
+                
+                this.setAttribute('aria-expanded', expanded);
+                
+                if (expanded) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    content.style.opacity = '1';
+                    this.querySelector('.faq-accordion-icon').textContent = '−';
+                } else {
+                    content.style.maxHeight = '0';
+                    content.style.opacity = '0';
+                    this.querySelector('.faq-accordion-icon').textContent = '+';
+                }
+            });
+        });
+    })();
+    </script>
 
-    echo '</div>';
-
+    <?php
     wp_reset_postdata();
-
     return ob_get_clean();
 }
 add_shortcode('faq', 'faq_shortcode');
