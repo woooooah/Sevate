@@ -102,6 +102,10 @@ html {
     background-color: #778da9;
 }
 
+.placa_rok p {
+    font-style: italic !important;
+}
+
 /* FAQ-plugin */
 
 .faq-item {
