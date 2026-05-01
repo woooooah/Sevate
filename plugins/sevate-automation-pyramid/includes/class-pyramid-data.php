@@ -23,23 +23,25 @@ class Sevate_Pyramid_Data {
 	 * Layer metadata — static architectural definitions.
 	 * Ordered top → bottom (vidik → logika → fizika).
 	 */
-	private static $layer_meta = array(
-		'vidik'  => array(
-			'label'       => 'Vidik & Inteligenca',
-			'sublabel'    => 'Vrh',
-			'description' => 'Človeški vmesnik sistema. Podatke iz spodnjih nivojev spremenimo v uporabno informacijo — vizualizacija, nadzor in povezava z višjimi poslovnimi sistemi.',
-		),
-		'logika' => array(
-			'label'       => 'Logika & Nadzor',
-			'sublabel'    => 'Jedro',
-			'description' => 'Možgani avtomatiziranega sistema. Fizični svet postane inteligenten — avtomatika, krmilna logika in medsebojna integracija naprav.',
-		),
-		'fizika' => array(
-			'label'       => 'Fizika & Energetika',
-			'sublabel'    => 'Osnova',
-			'description' => 'Trdni temelji brez katerih višji nivoji ne delujejo. Strojna oprema, elektrika, senzorji in aktuatorji — elektrotehniko in strojništvo združimo v celoto.',
-		),
-	);
+	private static function get_layer_meta() {
+		return array(
+			'vidik'  => array(
+				'label'       => __( 'Vidik & Inteligenca', 'sevate-automation-pyramid' ),
+				'sublabel'    => __( 'Vrh', 'sevate-automation-pyramid' ),
+				'description' => __( 'Človeški vmesnik sistema. Podatke iz spodnjih nivojev spremenimo v uporabno informacijo — vizualizacija, nadzor in povezava z višjimi poslovnimi sistemi.', 'sevate-automation-pyramid' ),
+			),
+			'logika' => array(
+				'label'       => __( 'Logika & Nadzor', 'sevate-automation-pyramid' ),
+				'sublabel'    => __( 'Jedro', 'sevate-automation-pyramid' ),
+				'description' => __( 'Možgani avtomatiziranega sistema. Fizični svet postane inteligenten — avtomatika, krmilna logika in medsebojna integracija naprav.', 'sevate-automation-pyramid' ),
+			),
+			'fizika' => array(
+				'label'       => __( 'Fizika & Energetika', 'sevate-automation-pyramid' ),
+				'sublabel'    => __( 'Osnova', 'sevate-automation-pyramid' ),
+				'description' => __( 'Trdni temelji brez katerih višji nivoji ne delujejo. Strojna oprema, elektrika, senzorji in aktuatorji — elektrotehniko in strojništvo združimo v celoto.', 'sevate-automation-pyramid' ),
+			),
+		);
+	}
 
 	/**
 	 * Returns all pyramid levels with their services, built dynamically
@@ -55,13 +57,15 @@ class Sevate_Pyramid_Data {
 		);
 
 		$query = new WP_Query( array(
-			'post_type'      => 'storitev',
-			'post_status'    => 'publish',
-			'posts_per_page' => -1,
-			'orderby'        => 'meta_value_num',
-			'meta_key'       => 'vrstni_red',
-			'order'          => 'ASC',
-			'no_found_rows'  => true,
+			'post_type'        => 'storitev',
+			'post_status'      => 'publish',
+			'posts_per_page'   => -1,
+			'orderby'          => 'meta_value_num',
+			'meta_key'         => 'vrstni_red',
+			'order'            => 'ASC',
+			'no_found_rows'    => true,
+			'suppress_filters' => false,
+			'lang'             => function_exists( 'pll_current_language' ) ? pll_current_language( 'slug' ) : '',
 		) );
 
 		foreach ( $query->posts as $post ) {
@@ -94,12 +98,14 @@ class Sevate_Pyramid_Data {
 		}
 		unset( $services, $s );
 
+		$layer_meta = self::get_layer_meta();
+
 		// Build final array top → bottom.
 		$levels = array();
-		foreach ( array_keys( self::$layer_meta ) as $id ) {
+		foreach ( array_keys( $layer_meta ) as $id ) {
 			$levels[] = array_merge(
 				array( 'id' => $id ),
-				self::$layer_meta[ $id ],
+				$layer_meta[ $id ],
 				array( 'services' => $grouped[ $id ] )
 			);
 		}
