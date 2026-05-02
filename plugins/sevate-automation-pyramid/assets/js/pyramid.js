@@ -246,7 +246,7 @@
 
   // ── Build right: detail panel + level description annotations ─────
 
-  function buildDetail(levels, geo) {
+  function buildDetail(levels, geo, cfg) {
     var h = '<aside class="sap-detail" id="sap-detail">';
 
     // Right-side level descriptions (visible by default, hidden when card opens)
@@ -275,9 +275,8 @@
       '<button class="sap-detail__close" id="sap-detail-close" type="button" aria-label="Zapri">&#x2715;</button>';
     h += '<h3 class="sap-detail__name" id="sap-detail-name"></h3>';
     h += '<p class="sap-detail__desc" id="sap-detail-desc"></p>';
-    var learnMoreText = cfg.LEARN_MORE
-      ? esc(cfg.LEARN_MORE)
-      : "Izvedite ve&#269;";
+    var learnMoreText =
+      cfg && cfg.LEARN_MORE ? esc(cfg.LEARN_MORE) : "Izvedite ve&#269;";
     h +=
       '<a class="sap-detail__link" id="sap-detail-link" href="#">' +
       learnMoreText +
@@ -313,7 +312,7 @@
       '<div class="sap-layout">' +
         buildAnnotations(levels, geo) +
         buildPyramid(levels, geo, cfg) +
-        buildDetail(levels, geo) +
+        buildDetail(levels, geo, cfg) +
         "</div>",
     );
 
