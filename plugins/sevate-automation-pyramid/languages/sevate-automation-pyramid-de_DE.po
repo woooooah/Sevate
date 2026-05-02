@@ -37,3 +37,5 @@ msgstr "Basis"
 msgid "Trdni temelji brez katerih višji nivoji ne delujejo. Strojna oprema, elektrika, senzorji in aktuatorji — elektrotehniko in strojništvo združimo v celoto."
 msgstr "Solide Grundlagen, ohne die die höheren Ebenen nicht funktionieren. Hardware, Elektrik, Sensoren und Aktuatoren – wir verbinden Elektrotechnik und Maschinenbau zu einem Ganzen."
 
+msgid "Izvedite več"
+msgstr "Mehr erfahren"

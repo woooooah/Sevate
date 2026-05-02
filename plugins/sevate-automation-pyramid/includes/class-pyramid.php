@@ -77,6 +77,7 @@ class Sevate_Automation_Pyramid {
 			'VB_W'         => 860,
 			'VB_H'         => array_sum( $band_heights ),
 			'BAND_HEIGHTS' => $band_heights,
+			'LEARN_MORE'   => __( 'Izvedite več', 'sevate-automation-pyramid' ),
 		) );
 
 		wp_localize_script( 'sevate-pyramid', 'SAP_LEVELS', $levels );

@@ -37,3 +37,5 @@ msgstr "Foundation"
 msgid "Trdni temelji brez katerih višji nivoji ne delujejo. Strojna oprema, elektrika, senzorji in aktuatorji — elektrotehniko in strojništvo združimo v celoto."
 msgstr "Solid foundations without which the higher levels do not work. Hardware, electricity, sensors and actuators — we bring electrical engineering and mechanical engineering together into a whole."
 
+msgid "Izvedite več"
+msgstr "Learn more"

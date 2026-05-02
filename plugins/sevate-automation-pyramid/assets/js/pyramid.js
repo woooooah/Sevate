@@ -275,8 +275,13 @@
       '<button class="sap-detail__close" id="sap-detail-close" type="button" aria-label="Zapri">&#x2715;</button>';
     h += '<h3 class="sap-detail__name" id="sap-detail-name"></h3>';
     h += '<p class="sap-detail__desc" id="sap-detail-desc"></p>';
+    var learnMoreText = cfg.LEARN_MORE
+      ? esc(cfg.LEARN_MORE)
+      : "Izvedite ve&#269;";
     h +=
-      '<a class="sap-detail__link" id="sap-detail-link" href="#">Izvedite ve&#269; &rarr;</a>';
+      '<a class="sap-detail__link" id="sap-detail-link" href="#">' +
+      learnMoreText +
+      " &rarr;</a>";
     h += "</div></aside>";
     return h;
   }
@@ -294,7 +299,9 @@
       typeof SAP_LEVELS === "undefined"
     ) {
       // eslint-disable-next-line no-console
-      console.error("Sevate Pyramid: SAP_CONFIG or SAP_LEVELS not defined (wp_localize_script failed?).");
+      console.error(
+        "Sevate Pyramid: SAP_CONFIG or SAP_LEVELS not defined (wp_localize_script failed?).",
+      );
       return;
     }
 
