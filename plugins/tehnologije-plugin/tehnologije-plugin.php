@@ -2,7 +2,7 @@
 /*
 Plugin Name: Tehnologije Plugin
 Description: Prikaz tehnologij (ACF) kot kartice
-Version: 1.0
+Version: 2.0
 Author: Your Name
 */
 
@@ -15,15 +15,25 @@ function tehnologija_cpt() {
 
     register_post_type('tehnologija', [
         'labels' => [
-            'name' => 'Tehnologije',
-            'singular_name' => 'Tehnologija'
+            'name'          => 'Tehnologije',
+            'singular_name' => 'Tehnologija',
         ],
-        'public' => true,
+        'public'    => true,
         'menu_icon' => 'dashicons-cpu',
-        'supports' => ['title'],
+        'supports'  => ['title'],
     ]);
 }
 add_action('init', 'tehnologija_cpt');
+
+
+/* ============================
+   REGISTER POST TYPE WITH POLYLANG
+============================ */
+add_filter('pll_get_post_types', 'add_tehnologija_to_polylang');
+function add_tehnologija_to_polylang($post_types) {
+    $post_types['tehnologija'] = 'tehnologija';
+    return $post_types;
+}
 
 
 /* ============================
@@ -31,13 +41,47 @@ add_action('init', 'tehnologija_cpt');
 ============================ */
 function tehnologije_shortcode() {
 
-    $query = new WP_Query([
-        'post_type' => 'tehnologija',
+    $args = [
+        'post_type'      => 'tehnologija',
         'posts_per_page' => -1,
-    ]);
+    ];
+
+    // Filter by current language if Polylang is active
+    if (function_exists('pll_current_language')) {
+        $args['lang'] = pll_current_language();
+    }
+
+    $query = new WP_Query($args);
+
+    // Get current language for static string translations
+    $lang = function_exists('pll_current_language') ? pll_current_language() : 'sl';
+
+    if ($lang == 'en') {
+        $no_data = 'No data found.';
+        $nivo_translations = [
+            'osnova' => 'Physics & Energy',
+            'jedro'  => 'Logic & Control',
+            'vrh'    => 'Vision & Intelligence',
+        ];
+    } elseif ($lang == 'de') {
+        $no_data = 'Keine Daten gefunden.';
+        $nivo_translations = [
+            'osnova' => 'Physik & Energie',
+            'jedro'  => 'Logik & Steuerung',
+            'vrh'    => 'Vision & Intelligenz',
+        ];
+    } else {
+        $no_data = 'Ni podatkov.';
+        $nivo_translations = [
+            'osnova' => 'Fizika & Energetika',
+            'jedro'  => 'Logika & Nadzor',
+            'vrh'    => 'Vidik & Inteligenca',
+        ];
+    }
+
 
     if (!$query->have_posts()) {
-        return '<p>Ni podatkov.</p>';
+        return '<p>' . esc_html($no_data) . '</p>';
     }
 
     ob_start();
@@ -48,19 +92,20 @@ function tehnologije_shortcode() {
         $query->the_post();
 
         $slika = get_field('slika');
-        $opis = get_field('opis');
-        
-        $nivo = get_field('nivo');
+        $opis  = get_field('opis');
+        $nivo  = get_field('nivo');
 
         $nivo_value = '';
         $nivo_label = '';
 
         if (is_array($nivo)) {
             $nivo_value = $nivo['value'];
-            $nivo_label = $nivo['label'];
+            // Use translated label instead of the ACF label
+            $nivo_label = isset($nivo_translations[$nivo_value])
+                ? $nivo_translations[$nivo_value]
+                : $nivo['label'];
         }
 
-        /* mapiranje value -> css class */
         $nivo_class = '';
 
         switch ($nivo_value) {
@@ -83,7 +128,7 @@ function tehnologije_shortcode() {
                   </div>';
         }
 
-        echo '<h3 class="tehnologija-title">' . get_the_title() . '</h3>';
+        echo '<h3 class="tehnologija-title">' . esc_html(get_the_title()) . '</h3>';
         echo '<div class="tehnologija-nivo">' . esc_html($nivo_label) . '</div>';
         echo '<div class="tehnologija-opis">' . esc_html($opis) . '</div>';
 
