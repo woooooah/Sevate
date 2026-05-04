@@ -168,6 +168,19 @@ html {
     font-family: inherit !important;
 }
 
+/* FAQ - prevent long questions from overflowing on mobile */
+
+.faq-accordion-button {
+    word-break: break-word !important;  /* wrap long words if needed */
+    white-space: normal !important;     /* allow text to wrap (overrides any inherited nowrap) */
+    align-items: flex-start !important; /* pin icon to top when text wraps to multiple lines */
+}
+
+.faq-accordion-button .faq-accordion-icon {
+    flex-shrink: 0 !important;   /* prevent the +/− from being squished */
+    margin-left: 12px !important;
+}
+
 .faq-accordion-button:hover,
 .faq-accordion-button:focus {
     background-color: rgba(65, 90, 119, 0.05) !important;
